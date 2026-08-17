@@ -3,7 +3,7 @@ import React from 'react';
 import { motion } from 'framer-motion';
 import { useTheme } from '../context/ThemeContext.jsx';
 import ProfileImg from '../assets/anjani.png';
-import { FaGithub, FaLinkedin, FaEnvelope, FaDownload } from 'react-icons/fa';
+import { FaGithub, FaLinkedin, FaEnvelope } from 'react-icons/fa';
 
 export default function Hero() {
     const { isDark } = useTheme();
@@ -84,19 +84,6 @@ export default function Hero() {
                                           dark:hover:bg-electric`}
                             >
                                 Contact Me
-                            </motion.a>
-                            <motion.a
-                                href="/resume.pdf"
-                                whileHover={{ scale: 1.05 }}
-                                whileTap={{ scale: 0.95 }}
-                                className={`px-8 py-3 rounded-lg font-medium
-                                          flex items-center gap-2 transition-all duration-300 cursor-pointer
-                                          dark:bg-white/5 bg-gray-100
-                                          dark:text-slate text-gray-600
-                                          border border-transparent hover:border-electric/30`}
-                            >
-                                <FaDownload className="w-4 h-4" />
-                                Resume
                             </motion.a>
                         </motion.div>
 
