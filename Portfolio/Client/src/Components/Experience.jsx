@@ -1,3 +1,4 @@
+// src/Components/Experience.jsx
 import React from 'react';
 import { motion } from 'framer-motion';
 import {
@@ -6,7 +7,10 @@ import {
   FiShield,
   FiClock,
   FiBookOpen,
-  FiAward
+  FiAward,
+  FiCalendar,
+  FiUserCheck,
+  FiZap
 } from 'react-icons/fi';
 import { FaGraduationCap } from 'react-icons/fa';
 
@@ -17,7 +21,7 @@ export default function Experience() {
     visible: {
       opacity: 1,
       transition: {
-        staggerChildren: 0.1,
+        staggerChildren: 0.08,
         delayChildren: 0.2
       }
     }
@@ -70,12 +74,13 @@ export default function Experience() {
       id: 4,
       title: "Cyber Security & Web Development",
       institution: "Hartron Advanced Skill Centre",
-      period: "3 Sept 2025 - Present",
+      period: "Sept 2025 - Present",
       location: "Kaithal, Haryana",
       icon: FiShield,
-      percentage: "1.5 Years",
+      duration: "1.5 Years",
       description: "Advanced training in Cyber Security and Full Stack Web Development with MERN Stack, specializing in secure application development.",
-      achievements: ["MERN Stack", "Web Security", "Prompt Engineering", "Ethical Hacking"]
+      achievements: ["MERN Stack", "Web Security", "Prompt Engineering", "Ethical Hacking"],
+      isActive: true
     }
   ];
 
@@ -85,215 +90,227 @@ export default function Experience() {
       id: 1,
       title: "Freelance Web Developer",
       company: "Self-Employed",
-      period: "20 March 2026 - Present",
+      period: "March 2026 - Present",
       location: "Remote",
       icon: FiBriefcase,
       description: "Building custom web applications for clients using MERN Stack with integrated security features.",
-      achievements: ["MERN Stack Development", "Security Implementation", "Client Management"]
+      achievements: ["MERN Stack Development", "Security Implementation", "Client Management"],
+      isActive: true
     }
   ];
 
+  // Stats for summary
+  const stats = [
+    { count: '4', label: 'Courses Completed', icon: FiBookOpen },
+    { count: '1.5', label: 'Years of Training', icon: FiClock },
+    { count: '4', label: 'Certifications', icon: FiAward },
+    { count: '✓', label: 'Currently Working', icon: FiUserCheck, isActive: true }
+  ];
+
+  // Render card function - DRY
+  const renderCard = (item, type) => {
+    const isWork = type === 'work';
+    const isActive = item.isActive || false;
+
+    return (
+      <motion.div
+        key={item.id}
+        variants={itemVariants}
+        whileHover={{ 
+          y: -6,
+          transition: { type: "spring", stiffness: 400 }
+        }}
+        className="group bg-gray-50 dark:bg-[#1a1a1a] rounded-2xl overflow-hidden border border-gray-200 dark:border-[#1a1a1a] hover:border-gray-300 dark:hover:border-gray-700 transition-all duration-300 shadow-sm hover:shadow-xl"
+      >
+        <div className="p-5 sm:p-6">
+          {/* Header */}
+          <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-3 mb-3">
+            <div className="flex items-start gap-3">
+              <div className="p-2.5 rounded-xl bg-white dark:bg-[#0a0a0a] group-hover:scale-110 transition-transform duration-300">
+                <item.icon className="w-5 h-5 text-gray-700 dark:text-gray-300" />
+              </div>
+              <div>
+                <h4 className="text-base sm:text-lg font-bold text-[#0a0a0a] dark:text-white group-hover:text-cyan-500 dark:group-hover:text-cyan-400 transition-colors">
+                  {item.title}
+                </h4>
+                <p className="text-xs sm:text-sm font-medium text-gray-600 dark:text-gray-400">
+                  {isWork ? item.company : item.institution}
+                </p>
+              </div>
+            </div>
+            {/* Period Badge - ENHANCED */}
+            <span className={`px-3 py-1 text-xs font-medium rounded-full whitespace-nowrap ${
+              isActive 
+                ? 'bg-green-100 dark:bg-green-900/30 text-green-600 dark:text-green-400 border border-green-200 dark:border-green-800'
+                : 'bg-gray-200 dark:bg-[#0a0a0a] text-gray-700 dark:text-gray-300 border border-gray-200 dark:border-[#1a1a1a]'
+            }`}>
+              <span className="flex items-center gap-1.5">
+                <FiCalendar className="w-3 h-3" />
+                {item.period}
+              </span>
+            </span>
+          </div>
+
+          {/* Location & Status */}
+          <div className="flex flex-wrap items-center gap-3 mb-3">
+            <div className="flex items-center gap-1.5">
+              <FiMapPin className="w-3.5 h-3.5 text-gray-500 dark:text-gray-400" />
+              <span className="text-xs text-gray-500 dark:text-gray-400">
+                {item.location}
+              </span>
+            </div>
+            {item.percentage && (
+              <>
+                <span className="w-1 h-1 rounded-full bg-gray-300 dark:bg-gray-600"></span>
+                <div className="flex items-center gap-1.5">
+                  <FiAward className="w-3.5 h-3.5 text-gray-500 dark:text-gray-400" />
+                  <span className="text-xs font-semibold text-gray-700 dark:text-gray-300">
+                    {item.percentage}
+                  </span>
+                </div>
+              </>
+            )}
+            {item.duration && (
+              <>
+                <span className="w-1 h-1 rounded-full bg-gray-300 dark:bg-gray-600"></span>
+                <div className="flex items-center gap-1.5">
+                  <FiClock className="w-3.5 h-3.5 text-gray-500 dark:text-gray-400" />
+                  <span className="text-xs font-medium text-gray-700 dark:text-gray-300">
+                    {item.duration}
+                  </span>
+                </div>
+              </>
+            )}
+            {isActive && (
+              <>
+                <span className="w-1 h-1 rounded-full bg-gray-300 dark:bg-gray-600"></span>
+                <span className="flex items-center gap-1.5 text-xs font-medium text-green-600 dark:text-green-400">
+                  <span className="relative flex h-2 w-2">
+                    <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
+                    <span className="relative inline-flex rounded-full h-2 w-2 bg-green-400"></span>
+                  </span>
+                  Active
+                </span>
+              </>
+            )}
+          </div>
+
+          {/* Description */}
+          <p className="text-gray-600 dark:text-gray-400 text-sm leading-relaxed mb-4">
+            {item.description}
+          </p>
+
+          {/* Achievements/Tags - ENHANCED */}
+          <div className="flex flex-wrap gap-1.5">
+            {item.achievements.map((achievement, idx) => (
+              <span
+                key={idx}
+                className="px-2.5 py-1 bg-white dark:bg-[#0a0a0a] text-gray-700 dark:text-gray-300 rounded-md text-xs font-medium border border-gray-200 dark:border-[#1a1a1a] hover:border-cyan-400 dark:hover:border-cyan-400 hover:text-cyan-500 dark:hover:text-cyan-400 transition-all duration-300 hover:scale-105"
+              >
+                {achievement}
+              </span>
+            ))}
+          </div>
+        </div>
+      </motion.div>
+    );
+  };
+
   return (
-    <section id="experience" className="py-20 px-4 sm:px-6 lg:px-8 bg-white dark:bg-[#0a0a0a] transition-colors duration-300">
-      <div className="container mx-auto max-w-6xl">
+    <section 
+      id="experience" 
+      className="py-20 px-4 sm:px-6 lg:px-8 bg-white dark:bg-[#0a0a0a] transition-colors duration-300 relative overflow-hidden"
+    >
+      {/* Subtle Background */}
+      <div className="absolute inset-0 pointer-events-none">
+        <div className="absolute top-0 right-0 w-96 h-96 bg-cyan-400/5 dark:bg-cyan-500/5 rounded-full blur-3xl"></div>
+        <div className="absolute bottom-0 left-0 w-96 h-96 bg-blue-400/5 dark:bg-blue-500/5 rounded-full blur-3xl"></div>
+      </div>
+
+      <div className="container mx-auto max-w-6xl relative z-10">
         <motion.div
           variants={containerVariants}
           initial="hidden"
           whileInView="visible"
-          viewport={{ once: true }}
+          viewport={{ once: true, margin: "-50px" }}
         >
-          {/* Section Header */}
-          <motion.div variants={itemVariants} className="text-center mb-12">
-            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-gray-100 dark:bg-[#1a1a1a] border border-gray-200 dark:border-[#1a1a1a] mb-4">
+          {/* Section Header - ENHANCED */}
+          <motion.div variants={itemVariants} className="text-center mb-10">
+            <div className="inline-flex items-center gap-2 px-5 py-2 rounded-full bg-gray-100 dark:bg-[#1a1a1a] border border-gray-200 dark:border-[#1a1a1a] mb-4">
+              <FiClock className="w-4 h-4 text-gray-700 dark:text-gray-300" />
               <span className="text-sm font-medium text-gray-700 dark:text-gray-300 uppercase tracking-wider">
                 My Journey
               </span>
             </div>
-            <h2 className="text-4xl sm:text-5xl font-extrabold text-[#0a0a0a] dark:text-white mb-4 tracking-tight">
+            <h2 className="text-4xl sm:text-5xl font-extrabold text-[#0a0a0a] dark:text-white mb-3 tracking-tight">
               Education & <span className="text-[#0a0a0a] dark:text-white">Experience</span>
             </h2>
-            <p className="text-lg text-gray-600 dark:text-gray-400 max-w-2xl mx-auto">
+            <p className="text-base sm:text-lg text-gray-600 dark:text-gray-400 max-w-2xl mx-auto">
               My educational background and professional journey in Cyber Security and Web Development
             </p>
           </motion.div>
 
           {/* Education Section */}
-          <div className="mb-12">
-            <div className="flex items-center gap-3 mb-6">
-              <div className="p-2 rounded-lg bg-gray-100 dark:bg-[#1a1a1a]">
-                <FiBookOpen className="w-6 h-6 text-gray-700 dark:text-gray-300" />
+          <motion.div variants={itemVariants} className="mb-12">
+            <div className="flex items-center gap-3 mb-5">
+              <div className="p-2.5 rounded-xl bg-gray-100 dark:bg-[#1a1a1a]">
+                <FiBookOpen className="w-5 h-5 text-gray-700 dark:text-gray-300" />
               </div>
-              <h3 className="text-2xl font-bold text-[#0a0a0a] dark:text-white">
+              <h3 className="text-xl sm:text-2xl font-bold text-[#0a0a0a] dark:text-white">
                 Education
               </h3>
               <span className="px-3 py-1 text-xs font-medium bg-gray-100 dark:bg-[#1a1a1a] text-gray-600 dark:text-gray-400 rounded-full">
-                Learning Journey
+                {educationData.length} Courses
               </span>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              {educationData.map((edu, index) => (
-                <motion.div
-                  key={edu.id}
-                  variants={itemVariants}
-                  whileHover={{ y: -5 }}
-                  className="group bg-gray-50 dark:bg-[#1a1a1a] rounded-xl overflow-hidden shadow-lg border border-gray-200 dark:border-[#1a1a1a] transition-all duration-300 hover:shadow-2xl"
-                >
-                  <div className="p-6">
-                    <div className="flex items-start justify-between mb-4">
-                      <div className="flex items-center gap-3">
-                        <div className="p-2 rounded-lg bg-white dark:bg-[#0a0a0a] group-hover:bg-gray-100 dark:group-hover:bg-[#2a2a2a] transition-colors">
-                          <edu.icon className="w-5 h-5 text-gray-700 dark:text-gray-300" />
-                        </div>
-                        <div>
-                          <h4 className="text-lg font-bold text-[#0a0a0a] dark:text-white">
-                            {edu.title}
-                          </h4>
-                          <p className="text-xs font-medium text-gray-600 dark:text-gray-400">
-                            {edu.institution}
-                          </p>
-                        </div>
-                      </div>
-                      <span className="px-2 py-1 text-xs font-medium bg-gray-200 dark:bg-[#0a0a0a] text-gray-700 dark:text-gray-300 rounded-full whitespace-nowrap">
-                        {edu.period}
-                      </span>
-                    </div>
-
-                    <div className="flex items-center gap-2 mb-3">
-                      <FiMapPin className="w-3 h-3 text-gray-500 dark:text-gray-400" />
-                      <span className="text-xs text-gray-500 dark:text-gray-400">
-                        {edu.location}
-                      </span>
-                    </div>
-
-                    {edu.percentage && (
-                      <div className="inline-flex items-center gap-2 px-2 py-1 bg-gray-200 dark:bg-[#0a0a0a] rounded-full mb-3">
-                        <FiAward className="w-3 h-3 text-gray-600 dark:text-gray-400" />
-                        <span className="text-xs font-semibold text-gray-700 dark:text-gray-300">
-                          {edu.percentage}
-                        </span>
-                      </div>
-                    )}
-
-                    <p className="text-gray-600 dark:text-gray-400 text-sm mb-4 leading-relaxed">
-                      {edu.description}
-                    </p>
-
-                    <div className="flex flex-wrap gap-2">
-                      {edu.achievements.map((achievement, idx) => (
-                        <span
-                          key={idx}
-                          className="px-2 py-1 bg-white dark:bg-[#0a0a0a] text-gray-700 dark:text-gray-300 rounded-md text-xs font-medium border border-gray-200 dark:border-[#1a1a1a]"
-                        >
-                          {achievement}
-                        </span>
-                      ))}
-                    </div>
-                  </div>
-                </motion.div>
-              ))}
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+              {educationData.map((edu) => renderCard(edu, 'education'))}
             </div>
-          </div>
+          </motion.div>
 
           {/* Work Experience Section */}
-          <div className="mb-12">
-            <div className="flex items-center gap-3 mb-6">
-              <div className="p-2 rounded-lg bg-gray-100 dark:bg-[#1a1a1a]">
-                <FiBriefcase className="w-6 h-6 text-gray-700 dark:text-gray-300" />
+          <motion.div variants={itemVariants} className="mb-12">
+            <div className="flex items-center gap-3 mb-5">
+              <div className="p-2.5 rounded-xl bg-gray-100 dark:bg-[#1a1a1a]">
+                <FiBriefcase className="w-5 h-5 text-gray-700 dark:text-gray-300" />
               </div>
-              <h3 className="text-2xl font-bold text-[#0a0a0a] dark:text-white">
+              <h3 className="text-xl sm:text-2xl font-bold text-[#0a0a0a] dark:text-white">
                 Work Experience
               </h3>
               <span className="px-3 py-1 text-xs font-medium bg-gray-100 dark:bg-[#1a1a1a] text-gray-600 dark:text-gray-400 rounded-full">
-                Professional Journey
+                {workExperience.length} Role
               </span>
             </div>
 
-            <div className="grid grid-cols-1 gap-6">
-              {workExperience.map((work) => (
-                <motion.div
-                  key={work.id}
-                  variants={itemVariants}
-                  whileHover={{ y: -5 }}
-                  className="group bg-gray-50 dark:bg-[#1a1a1a] rounded-xl overflow-hidden shadow-lg border border-gray-200 dark:border-[#1a1a1a] transition-all duration-300 hover:shadow-2xl"
-                >
-                  <div className="p-6">
-                    <div className="flex flex-col sm:flex-row sm:items-start justify-between mb-4">
-                      <div className="flex items-center gap-3">
-                        <div className="p-2 rounded-lg bg-white dark:bg-[#0a0a0a] group-hover:bg-gray-100 dark:group-hover:bg-[#2a2a2a] transition-colors">
-                          <work.icon className="w-5 h-5 text-gray-700 dark:text-gray-300" />
-                        </div>
-                        <div>
-                          <h4 className="text-lg font-bold text-[#0a0a0a] dark:text-white">
-                            {work.title}
-                          </h4>
-                          <p className="text-sm font-medium text-blue-600 dark:text-blue-400">
-                            {work.company}
-                          </p>
-                        </div>
-                      </div>
-                      <span className="px-3 py-1 text-xs font-medium bg-blue-100 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400 rounded-full whitespace-nowrap mt-2 sm:mt-0">
-                        {work.period}
-                      </span>
-                    </div>
-
-                    <div className="flex items-center gap-4 mb-3">
-                      <div className="flex items-center gap-2">
-                        <FiMapPin className="w-3 h-3 text-gray-500 dark:text-gray-400" />
-                        <span className="text-xs text-gray-500 dark:text-gray-400">
-                          {work.location}
-                        </span>
-                      </div>
-                      <span className="w-1 h-1 rounded-full bg-gray-300 dark:bg-gray-600"></span>
-                      <div className="flex items-center gap-2">
-                        <FiClock className="w-3 h-3 text-gray-500 dark:text-gray-400" />
-                        <span className="text-xs font-medium text-green-600 dark:text-green-400">
-                          ● Active
-                        </span>
-                      </div>
-                    </div>
-
-                    <p className="text-gray-600 dark:text-gray-400 text-sm mb-4 leading-relaxed">
-                      {work.description}
-                    </p>
-
-                    <div className="flex flex-wrap gap-2">
-                      {work.achievements.map((achievement, idx) => (
-                        <span
-                          key={idx}
-                          className="px-2 py-1 bg-white dark:bg-[#0a0a0a] text-gray-700 dark:text-gray-300 rounded-md text-xs font-medium border border-gray-200 dark:border-[#1a1a1a]"
-                        >
-                          {achievement}
-                        </span>
-                      ))}
-                    </div>
-                  </div>
-                </motion.div>
-              ))}
+            <div className="grid grid-cols-1 gap-5">
+              {workExperience.map((work) => renderCard(work, 'work'))}
             </div>
-          </div>
+          </motion.div>
 
-          {/* Summary Stats */}
+          {/* Summary Stats - ENHANCED (All cards consistent) */}
           <motion.div
             variants={itemVariants}
-            className="grid grid-cols-2 sm:grid-cols-4 gap-4"
+            className="grid grid-cols-2 sm:grid-cols-4 gap-3 sm:gap-4"
           >
-            <div className="p-4 rounded-xl bg-gray-50 dark:bg-[#1a1a1a] border border-gray-200 dark:border-[#1a1a1a] text-center hover:border-gray-300 dark:hover:border-gray-700 transition-all duration-300">
-              <div className="text-2xl font-bold text-[#0a0a0a] dark:text-white">4</div>
-              <p className="text-xs text-gray-600 dark:text-gray-400 mt-1">Courses Completed</p>
-            </div>
-            <div className="p-4 rounded-xl bg-gray-50 dark:bg-[#1a1a1a] border border-gray-200 dark:border-[#1a1a1a] text-center hover:border-gray-300 dark:hover:border-gray-700 transition-all duration-300">
-              <div className="text-2xl font-bold text-[#0a0a0a] dark:text-white">1.5</div>
-              <p className="text-xs text-gray-600 dark:text-gray-400 mt-1">Years of Training</p>
-            </div>
-            <div className="p-4 rounded-xl bg-gray-50 dark:bg-[#1a1a1a] border border-gray-200 dark:border-[#1a1a1a] text-center hover:border-gray-300 dark:hover:border-gray-700 transition-all duration-300">
-              <div className="text-2xl font-bold text-[#0a0a0a] dark:text-white">4</div>
-              <p className="text-xs text-gray-600 dark:text-gray-400 mt-1">Certifications</p>
-            </div>
-            <div className="p-4 rounded-xl bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800 text-center hover:border-blue-300 dark:hover:border-blue-700 transition-all duration-300">
-              <div className="text-2xl font-bold text-blue-600 dark:text-blue-400">✓</div>
-              <p className="text-xs text-blue-600 dark:text-blue-400 mt-1">Currently Working</p>
-            </div>
+            {stats.map((stat, idx) => (
+              <div 
+                key={idx}
+                className={`p-4 sm:p-5 rounded-xl bg-gray-50 dark:bg-[#1a1a1a] border border-gray-200 dark:border-[#1a1a1a] text-center hover:border-gray-300 dark:hover:border-gray-700 transition-all duration-300 hover:-translate-y-1 hover:shadow-md ${
+                  stat.isActive ? 'border-green-200 dark:border-green-800 bg-green-50 dark:bg-green-900/10' : ''
+                }`}
+              >
+                <div className={`text-2xl sm:text-3xl font-bold ${
+                  stat.isActive ? 'text-green-600 dark:text-green-400' : 'text-[#0a0a0a] dark:text-white'
+                }`}>
+                  {stat.count}
+                </div>
+                <div className="text-xs sm:text-sm text-gray-600 dark:text-gray-400 mt-1 flex items-center justify-center gap-1.5">
+                  <stat.icon className="w-3.5 h-3.5" />
+                  {stat.label}
+                </div>
+              </div>
+            ))}
           </motion.div>
         </motion.div>
       </div>

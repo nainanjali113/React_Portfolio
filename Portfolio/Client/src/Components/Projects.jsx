@@ -1,5 +1,6 @@
-import React from 'react';
-import { motion } from 'framer-motion';
+// src/Components/Projects.jsx
+import React, { useState } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
 import {
   FiShoppingCart,
   FiMessageSquare,
@@ -11,38 +12,16 @@ import {
   FiAward,
   FiBriefcase,
   FiCode,
-  FiLink,
-  FiDatabase,
-  FiLock,
-  FiUsers,
-  FiBox
+  FiFolder,
+  FiZap
 } from 'react-icons/fi';
 import { FaReact, FaNodeJs } from 'react-icons/fa';
 import { SiMongodb, SiExpress, SiTailwindcss, SiSocketdotio, SiRedux, SiBlockchaindotcom } from 'react-icons/si';
 
 export default function Projects() {
-  // Animation variants
-  const containerVariants = {
-    hidden: { opacity: 0 },
-    visible: {
-      opacity: 1,
-      transition: {
-        staggerChildren: 0.1,
-        delayChildren: 0.2
-      }
-    }
-  };
+  const [activeTab, setActiveTab] = useState('all');
 
-  const itemVariants = {
-    hidden: { y: 20, opacity: 0 },
-    visible: {
-      y: 0,
-      opacity: 1,
-      transition: { duration: 0.4, ease: "easeOut" }
-    }
-  };
-
-  // All Projects
+  // All Projects Data
   const allProjects = [
     // Hartron Advanced Skill Centre Projects
     {
@@ -53,8 +32,7 @@ export default function Projects() {
       icon: FiShoppingCart,
       type: "Hartron Advanced Skill Centre",
       category: "Institute Project",
-      features: ["Authentication", "CRUD Operations", "Cart Management", "Order Tracking", "MongoDB Integration"],
-      tech: ["MERN Stack", "MongoDB", "Express.js", "React.js", "Node.js", "REST API", "JWT Auth"],
+      tech: ["MERN Stack", "MongoDB", "Express.js", "React.js", "Node.js", "JWT Auth"],
       github: "https://github.com/yourusername/hartron-ecommerce",
       demo: "https://hartron-ecommerce-demo.vercel.app",
       isLive: true
@@ -67,8 +45,7 @@ export default function Projects() {
       icon: FiServer,
       type: "Hartron Advanced Skill Centre",
       category: "Institute Project",
-      features: ["Course Management", "Student Enrollment", "Instructor Dashboard", "Progress Tracking", "Certification Generation"],
-      tech: ["MERN Stack", "MongoDB", "Express.js", "React.js", "Node.js", "JWT", "Redux"],
+      tech: ["MERN Stack", "MongoDB", "Express.js", "React.js", "Node.js", "Redux"],
       github: "https://github.com/yourusername/hartron-lms",
       demo: "https://hartron-lms-demo.vercel.app",
       isLive: true
@@ -83,8 +60,7 @@ export default function Projects() {
       icon: FiTrendingUp,
       type: "Freelancing Project",
       category: "Dashboard Development",
-      features: ["Real-time Analytics", "User Management", "Content Management", "Security Monitoring", "Penetration Testing"],
-      tech: ["MERN Stack", "MongoDB", "Express.js", "React.js", "Node.js", "Cyber Security", "Web App Penetration Testing"],
+      tech: ["MERN Stack", "MongoDB", "Express.js", "React.js", "Node.js", "Cyber Security"],
       github: "https://github.com/yourusername/hartron-dashboard",
       demo: "http://dashboard.hartronindia.com",
       isLive: true,
@@ -98,8 +74,7 @@ export default function Projects() {
       icon: FiShield,
       type: "Freelancing Project",
       category: "Cyber Security",
-      features: ["Vulnerability Scanning", "Penetration Testing", "Network Security Analysis", "Audit Reports", "Security Compliance"],
-      tech: ["MERN Stack", "Python", "Cyber Security", "Penetration Testing", "Vulnerability Assessment", "Network Analysis"],
+      tech: ["MERN Stack", "Python", "Penetration Testing", "Vulnerability Assessment"],
       github: "https://github.com/yourusername/security-assessment-tool",
       demo: "https://security-assessment-demo.vercel.app",
       isLive: true
@@ -114,7 +89,6 @@ export default function Projects() {
       icon: FiShoppingCart,
       type: "Learning Project",
       category: "MERN Stack",
-      features: ["Authentication", "CRUD Operations", "Cart Management", "Order Processing", "REST API"],
       tech: ["MERN Stack", "MongoDB", "Express.js", "React.js", "Node.js", "REST API"],
       github: "https://github.com/yourusername/mern-ecommerce",
       demo: "https://mern-ecommerce-demo.vercel.app",
@@ -128,8 +102,7 @@ export default function Projects() {
       icon: FiMessageSquare,
       type: "Learning Project",
       category: "MERN + Socket.IO",
-      features: ["Real-time Messaging", "Online Users", "Typing Indicator", "User Authentication", "Message History"],
-      tech: ["MERN Stack", "Socket.IO", "Real-time", "WebSockets", "JWT"],
+      tech: ["MERN Stack", "Socket.IO", "WebSockets", "JWT"],
       github: "https://github.com/yourusername/chat-app",
       demo: "https://chat-app-demo.vercel.app",
       isLive: true
@@ -142,8 +115,7 @@ export default function Projects() {
       icon: FiTrendingUp,
       type: "Learning Project",
       category: "MERN + Redux + Socket.IO",
-      features: ["Live Product Updates", "Real-time Cart", "Admin Dashboard", "Inventory Management", "Order Tracking"],
-      tech: ["MERN Stack", "Redux Toolkit", "Socket.IO", "Real-time", "Admin Dashboard"],
+      tech: ["MERN Stack", "Redux Toolkit", "Socket.IO", "Admin Dashboard"],
       github: "https://github.com/yourusername/real-time-ecommerce",
       demo: "https://real-time-ecommerce-demo.vercel.app",
       isLive: true
@@ -156,7 +128,6 @@ export default function Projects() {
       icon: SiBlockchaindotcom,
       type: "Learning Project",
       category: "Blockchain Basics",
-      features: ["Wallet Connection", "Smart Contract Interaction", "Transaction History", "DApp Architecture", "Web3 Integration"],
       tech: ["Web3", "Blockchain", "Smart Contracts", "Ethereum", "DApp"],
       github: "https://github.com/yourusername/blockchain-dapp",
       demo: "https://blockchain-dapp-demo.vercel.app",
@@ -164,148 +135,146 @@ export default function Projects() {
     }
   ];
 
-  // Filter projects by type
-  const hartronProjects = allProjects.filter(p => p.type === "Hartron Advanced Skill Centre");
-  const freelancingProjects = allProjects.filter(p => p.type === "Freelancing Project");
-  const learningProjects = allProjects.filter(p => p.type === "Learning Project");
+  // Filter projects based on active tab
+  const getFilteredProjects = () => {
+    if (activeTab === 'all') return allProjects;
+    if (activeTab === 'hartron') {
+      return allProjects.filter(p => p.type === "Hartron Advanced Skill Centre");
+    }
+    if (activeTab === 'freelance') {
+      return allProjects.filter(p => p.type === "Freelancing Project");
+    }
+    if (activeTab === 'learning') {
+      return allProjects.filter(p => p.type === "Learning Project");
+    }
+    return allProjects;
+  };
+
+  const filteredProjects = getFilteredProjects();
+
+  // Tab configuration
+  const tabs = [
+    { key: 'all', label: 'All Projects', icon: FiFolder },
+    { key: 'hartron', label: '🏛️ Hartron', icon: FiAward },
+    { key: 'freelance', label: '💼 Freelance', icon: FiBriefcase },
+    { key: 'learning', label: '📚 Learning', icon: FiCode },
+  ];
+
+  // Animation variants
+  const containerVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.08,
+        delayChildren: 0.2
+      }
+    }
+  };
+
+  const itemVariants = {
+    hidden: { y: 20, opacity: 0 },
+    visible: {
+      y: 0,
+      opacity: 1,
+      transition: { duration: 0.4, ease: "easeOut" }
+    }
+  };
+
+  // Stats for summary
+  const stats = [
+    { count: '2', label: 'Hartron Projects' },
+    { count: '2', label: 'Freelancing Projects' },
+    { count: '4', label: 'Learning Projects' },
+    { count: '8', label: 'Total Projects' },
+  ];
 
   return (
-    <section id="project" className="py-20 px-4 sm:px-6 lg:px-8 bg-white dark:bg-[#0a0a0a] transition-colors duration-300">
-      <div className="container mx-auto max-w-6xl">
+    <section 
+      id="project" 
+      className="py-20 px-4 sm:px-6 lg:px-8 bg-white dark:bg-[#0a0a0a] transition-colors duration-300 relative overflow-hidden"
+    >
+      {/* Subtle Background */}
+      <div className="absolute inset-0 pointer-events-none">
+        <div className="absolute top-0 left-0 w-96 h-96 bg-cyan-400/5 dark:bg-cyan-500/5 rounded-full blur-3xl"></div>
+        <div className="absolute bottom-0 right-0 w-96 h-96 bg-blue-400/5 dark:bg-blue-500/5 rounded-full blur-3xl"></div>
+      </div>
+
+      <div className="container mx-auto max-w-6xl relative z-10">
         <motion.div
           variants={containerVariants}
           initial="hidden"
           whileInView="visible"
-          viewport={{ once: true }}
+          viewport={{ once: true, margin: "-50px" }}
         >
-          {/* Section Header */}
-          <motion.div variants={itemVariants} className="text-center mb-12">
-            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-gray-100 dark:bg-[#1a1a1a] border border-gray-200 dark:border-[#1a1a1a] mb-4">
+          {/* Section Header - ENHANCED */}
+          <motion.div variants={itemVariants} className="text-center mb-10">
+            <div className="inline-flex items-center gap-2 px-5 py-2 rounded-full bg-gray-100 dark:bg-[#1a1a1a] border border-gray-200 dark:border-[#1a1a1a] mb-4">
+              <FiFolder className="w-4 h-4 text-gray-700 dark:text-gray-300" />
               <span className="text-sm font-medium text-gray-700 dark:text-gray-300 uppercase tracking-wider">
-                My Projects
+                My Portfolio
               </span>
             </div>
-            <h2 className="text-4xl sm:text-5xl font-extrabold text-[#0a0a0a] dark:text-white mb-4 tracking-tight">
+            <h2 className="text-4xl sm:text-5xl font-extrabold text-[#0a0a0a] dark:text-white mb-3 tracking-tight">
               Featured <span className="text-[#0a0a0a] dark:text-white">Projects</span>
             </h2>
-            <p className="text-lg text-gray-600 dark:text-gray-400 max-w-2xl mx-auto">
+            <p className="text-base sm:text-lg text-gray-600 dark:text-gray-400 max-w-2xl mx-auto">
               A showcase of my work including Hartron Advanced Skill Centre projects, freelancing work, and MERN AI learning projects
             </p>
           </motion.div>
 
-          {/* Hartron Advanced Skill Centre Projects */}
-          <motion.div variants={itemVariants} className="mb-12">
-            <div className="flex items-center gap-3 mb-6">
-              <div className="p-2 rounded-lg bg-gray-100 dark:bg-[#1a1a1a]">
-                <FiAward className="w-6 h-6 text-gray-700 dark:text-gray-300" />
-              </div>
-              <h3 className="text-2xl font-bold text-[#0a0a0a] dark:text-white">
-                Hartron Advanced Skill Centre
-              </h3>
-              <span className="px-3 py-1 text-xs font-medium bg-gray-100 dark:bg-[#1a1a1a] text-gray-600 dark:text-gray-400 rounded-full">
-                Institute Projects
-              </span>
-            </div>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              {hartronProjects.map((project, index) => (
-                <motion.div
-                  key={project.id}
-                  variants={itemVariants}
-                  whileHover={{ y: -5 }}
-                  className="group bg-gray-50 dark:bg-[#1a1a1a] rounded-xl overflow-hidden shadow-lg border border-gray-200 dark:border-[#1a1a1a] transition-all duration-300 hover:shadow-2xl"
-                >
-                  <div className="p-6">
-                    <div className="flex items-start justify-between mb-4">
-                      <div className="flex items-center gap-3">
-                        <div className="p-2 rounded-lg bg-white dark:bg-[#0a0a0a]">
-                          <project.icon className="w-5 h-5 text-gray-700 dark:text-gray-300" />
-                        </div>
-                        <div>
-                          <h3 className="text-lg font-bold text-[#0a0a0a] dark:text-white">
-                            {project.title}
-                          </h3>
-                          {project.subtitle && (
-                            <span className="text-xs text-gray-500 dark:text-gray-400">
-                              {project.subtitle}
-                            </span>
-                          )}
-                        </div>
-                      </div>
-                      <span className="px-2 py-1 text-xs font-medium bg-gray-200 dark:bg-[#0a0a0a] text-gray-700 dark:text-gray-300 rounded-full">
-                        {project.category}
-                      </span>
-                    </div>
-
-                    <p className="text-gray-600 dark:text-gray-400 text-sm mb-4 leading-relaxed">
-                      {project.description}
-                    </p>
-
-                    <div className="flex flex-wrap gap-2 mb-4">
-                      {project.tech.map((tech, idx) => (
-                        <span
-                          key={idx}
-                          className="px-2 py-1 bg-white dark:bg-[#0a0a0a] text-gray-700 dark:text-gray-300 rounded-md text-xs font-medium border border-gray-200 dark:border-[#1a1a1a]"
-                        >
-                          {tech}
-                        </span>
-                      ))}
-                    </div>
-
-                    <div className="flex items-center gap-3 pt-4 border-t border-gray-200 dark:border-[#1a1a1a]">
-                      <a
-                        href={project.github}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="inline-flex items-center gap-1.5 text-sm text-gray-700 dark:text-gray-300 hover:text-[#0a0a0a] dark:hover:text-white transition-colors"
-                      >
-                        <FiGithub className="w-4 h-4" />
-                        Code
-                      </a>
-                      <a
-                        href={project.demo}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="inline-flex items-center gap-1.5 text-sm text-gray-700 dark:text-gray-300 hover:text-[#0a0a0a] dark:hover:text-white transition-colors"
-                      >
-                        <FiExternalLink className="w-4 h-4" />
-                        {project.isLive ? '🔴 Live' : 'View Demo'}
-                      </a>
-                    </div>
-                  </div>
-                </motion.div>
-              ))}
-            </div>
+          {/* Filter Tabs - ENHANCED */}
+          <motion.div variants={itemVariants} className="flex justify-center gap-2 sm:gap-3 mb-10 flex-wrap">
+            {tabs.map((tab) => (
+              <button
+                key={tab.key}
+                onClick={() => setActiveTab(tab.key)}
+                className={`px-4 sm:px-6 py-2 rounded-full text-sm font-medium transition-all duration-300 ${
+                  activeTab === tab.key
+                    ? 'bg-[#0a0a0a] dark:bg-white text-white dark:text-[#0a0a0a] shadow-lg'
+                    : 'bg-gray-100 dark:bg-[#1a1a1a] text-gray-600 dark:text-gray-400 hover:text-[#0a0a0a] dark:hover:text-white border border-gray-200 dark:border-[#1a1a1a] hover:border-gray-300 dark:hover:border-gray-700'
+                }`}
+              >
+                <span className="flex items-center gap-2">
+                  <tab.icon className="w-4 h-4" />
+                  {tab.label}
+                </span>
+              </button>
+            ))}
           </motion.div>
 
-          {/* Freelancing Projects */}
-          <motion.div variants={itemVariants} className="mb-12">
-            <div className="flex items-center gap-3 mb-6">
-              <div className="p-2 rounded-lg bg-gray-100 dark:bg-[#1a1a1a]">
-                <FiBriefcase className="w-6 h-6 text-gray-700 dark:text-gray-300" />
-              </div>
-              <h3 className="text-2xl font-bold text-[#0a0a0a] dark:text-white">
-                Freelancing Projects
-              </h3>
-              <span className="px-3 py-1 text-xs font-medium bg-gray-100 dark:bg-[#1a1a1a] text-gray-600 dark:text-gray-400 rounded-full">
-                Professional Work
-              </span>
-            </div>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              {freelancingProjects.map((project, index) => (
+          {/* Projects Grid - With AnimatePresence for smooth transitions */}
+          <AnimatePresence mode="wait">
+            <motion.div
+              key={activeTab}
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -20 }}
+              transition={{ duration: 0.3 }}
+              className="grid grid-cols-1 md:grid-cols-2 gap-6"
+            >
+              {filteredProjects.map((project, index) => (
                 <motion.div
                   key={project.id}
                   variants={itemVariants}
-                  whileHover={{ y: -5 }}
-                  className="group bg-gray-50 dark:bg-[#1a1a1a] rounded-xl overflow-hidden shadow-lg border border-gray-200 dark:border-[#1a1a1a] transition-all duration-300 hover:shadow-2xl"
+                  initial="hidden"
+                  animate="visible"
+                  transition={{ delay: index * 0.05 }}
+                  whileHover={{ 
+                    y: -8,
+                    transition: { type: "spring", stiffness: 400 }
+                  }}
+                  className="group bg-gray-50 dark:bg-[#1a1a1a] rounded-2xl overflow-hidden border border-gray-200 dark:border-[#1a1a1a] hover:border-gray-300 dark:hover:border-gray-700 transition-all duration-300 shadow-sm hover:shadow-xl"
                 >
-                  <div className="p-6">
-                    <div className="flex items-start justify-between mb-4">
+                  {/* Card Header */}
+                  <div className="p-5 bg-white dark:bg-[#0a0a0a] border-b border-gray-200 dark:border-[#1a1a1a]">
+                    <div className="flex items-start justify-between">
                       <div className="flex items-center gap-3">
-                        <div className="p-2 rounded-lg bg-white dark:bg-[#0a0a0a]">
+                        <div className="p-2.5 rounded-xl bg-gray-100 dark:bg-[#1a1a1a] group-hover:scale-110 transition-transform duration-300">
                           <project.icon className="w-5 h-5 text-gray-700 dark:text-gray-300" />
                         </div>
                         <div>
-                          <h3 className="text-lg font-bold text-[#0a0a0a] dark:text-white">
+                          <h3 className="text-base font-bold text-[#0a0a0a] dark:text-white group-hover:text-cyan-500 dark:group-hover:text-cyan-400 transition-colors">
                             {project.title}
                           </h3>
                           {project.subtitle && (
@@ -320,32 +289,37 @@ export default function Projects() {
                           )}
                         </div>
                       </div>
-                      <span className="px-2 py-1 text-xs font-medium bg-gray-200 dark:bg-[#0a0a0a] text-gray-700 dark:text-gray-300 rounded-full">
+                      <span className="px-2.5 py-1 text-xs font-medium bg-gray-200 dark:bg-[#0a0a0a] text-gray-700 dark:text-gray-300 rounded-full whitespace-nowrap ml-2">
                         {project.category}
                       </span>
                     </div>
+                  </div>
 
-                    <p className="text-gray-600 dark:text-gray-400 text-sm mb-4 leading-relaxed">
+                  {/* Card Body */}
+                  <div className="p-5">
+                    <p className="text-gray-600 dark:text-gray-400 text-sm leading-relaxed line-clamp-3">
                       {project.description}
                     </p>
 
-                    <div className="flex flex-wrap gap-2 mb-4">
+                    {/* Tech Stack - ENHANCED */}
+                    <div className="flex flex-wrap gap-1.5 mt-4">
                       {project.tech.map((tech, idx) => (
                         <span
                           key={idx}
-                          className="px-2 py-1 bg-white dark:bg-[#0a0a0a] text-gray-700 dark:text-gray-300 rounded-md text-xs font-medium border border-gray-200 dark:border-[#1a1a1a]"
+                          className="px-2.5 py-1 bg-white dark:bg-[#0a0a0a] text-gray-700 dark:text-gray-300 rounded-md text-xs font-medium border border-gray-200 dark:border-[#1a1a1a] hover:border-cyan-400 dark:hover:border-cyan-400 hover:text-cyan-500 dark:hover:text-cyan-400 transition-all duration-300 hover:scale-105"
                         >
                           {tech}
                         </span>
                       ))}
                     </div>
 
-                    <div className="flex items-center gap-3 pt-4 border-t border-gray-200 dark:border-[#1a1a1a]">
+                    {/* Action Buttons - ENHANCED */}
+                    <div className="flex items-center gap-3 pt-4 mt-4 border-t border-gray-200 dark:border-[#1a1a1a]">
                       <a
                         href={project.github}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="inline-flex items-center gap-1.5 text-sm text-gray-700 dark:text-gray-300 hover:text-[#0a0a0a] dark:hover:text-white transition-colors"
+                        className="inline-flex items-center gap-1.5 px-4 py-1.5 bg-gray-100 dark:bg-[#0a0a0a] text-gray-700 dark:text-gray-300 rounded-lg text-sm font-medium hover:bg-gray-200 dark:hover:bg-[#2a2a2a] hover:text-[#0a0a0a] dark:hover:text-white transition-all duration-300 hover:scale-105"
                       >
                         <FiGithub className="w-4 h-4" />
                         Code
@@ -354,123 +328,45 @@ export default function Projects() {
                         href={project.demo}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="inline-flex items-center gap-1.5 text-sm text-gray-700 dark:text-gray-300 hover:text-[#0a0a0a] dark:hover:text-white transition-colors"
+                        className="inline-flex items-center gap-1.5 px-4 py-1.5 bg-[#0a0a0a] dark:bg-white text-white dark:text-[#0a0a0a] rounded-lg text-sm font-medium hover:opacity-80 transition-all duration-300 hover:scale-105"
                       >
                         <FiExternalLink className="w-4 h-4" />
-                        {project.isLive ? '🔴 Live' : 'View Demo'}
+                        {project.isLive ? 'Live Demo' : 'View Demo'}
                       </a>
-                    </div>
-                  </div>
-                </motion.div>
-              ))}
-            </div>
-          </motion.div>
-
-          {/* MERN AI Learning Projects */}
-          <motion.div variants={itemVariants}>
-            <div className="flex items-center gap-3 mb-6">
-              <div className="p-2 rounded-lg bg-gray-100 dark:bg-[#1a1a1a]">
-                <FiCode className="w-6 h-6 text-gray-700 dark:text-gray-300" />
-              </div>
-              <h3 className="text-2xl font-bold text-[#0a0a0a] dark:text-white">
-                MERN AI Learning Projects
-              </h3>
-              <span className="px-3 py-1 text-xs font-medium bg-gray-100 dark:bg-[#1a1a1a] text-gray-600 dark:text-gray-400 rounded-full">
-                Portfolio Projects
-              </span>
-            </div>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-6">
-              {learningProjects.map((project, index) => (
-                <motion.div
-                  key={project.id}
-                  variants={itemVariants}
-                  whileHover={{ y: -5 }}
-                  className="group bg-gray-50 dark:bg-[#1a1a1a] rounded-xl overflow-hidden shadow-lg border border-gray-200 dark:border-[#1a1a1a] transition-all duration-300 hover:shadow-2xl"
-                >
-                  <div className="p-6">
-                    <div className="flex items-start justify-between mb-4">
-                      <div className="flex items-center gap-3">
-                        <div className="p-2 rounded-lg bg-white dark:bg-[#0a0a0a]">
-                          <project.icon className="w-5 h-5 text-gray-700 dark:text-gray-300" />
-                        </div>
-                        <div>
-                          <h3 className="text-lg font-bold text-[#0a0a0a] dark:text-white">
-                            {project.title}
-                          </h3>
-                          {project.subtitle && (
-                            <span className="text-xs text-gray-500 dark:text-gray-400">
-                              {project.subtitle}
-                            </span>
-                          )}
-                        </div>
-                      </div>
-                      <span className="px-2 py-1 text-xs font-medium bg-gray-200 dark:bg-[#0a0a0a] text-gray-700 dark:text-gray-300 rounded-full">
-                        {project.category}
-                      </span>
-                    </div>
-
-                    <p className="text-gray-600 dark:text-gray-400 text-sm mb-4 leading-relaxed">
-                      {project.description}
-                    </p>
-
-                    <div className="flex flex-wrap gap-2 mb-4">
-                      {project.tech.map((tech, idx) => (
-                        <span
-                          key={idx}
-                          className="px-2 py-1 bg-white dark:bg-[#0a0a0a] text-gray-700 dark:text-gray-300 rounded-md text-xs font-medium border border-gray-200 dark:border-[#1a1a1a]"
-                        >
-                          {tech}
+                      {project.isLive && (
+                        <span className="flex items-center gap-1 text-xs text-green-600 dark:text-green-400 ml-auto">
+                          <span className="relative flex h-2 w-2">
+                            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
+                            <span className="relative inline-flex rounded-full h-2 w-2 bg-green-400"></span>
+                          </span>
+                          Live
                         </span>
-                      ))}
-                    </div>
-
-                    <div className="flex items-center gap-3 pt-4 border-t border-gray-200 dark:border-[#1a1a1a]">
-                      <a
-                        href={project.github}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="inline-flex items-center gap-1.5 text-sm text-gray-700 dark:text-gray-300 hover:text-[#0a0a0a] dark:hover:text-white transition-colors"
-                      >
-                        <FiGithub className="w-4 h-4" />
-                        Code
-                      </a>
-                      <a
-                        href={project.demo}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="inline-flex items-center gap-1.5 text-sm text-gray-700 dark:text-gray-300 hover:text-[#0a0a0a] dark:hover:text-white transition-colors"
-                      >
-                        <FiExternalLink className="w-4 h-4" />
-                        {project.isLive ? '🔴 Live' : 'View Demo'}
-                      </a>
+                      )}
                     </div>
                   </div>
                 </motion.div>
               ))}
-            </div>
-          </motion.div>
+            </motion.div>
+          </AnimatePresence>
 
-          {/* Project Summary Stats */}
+          {/* Project Statistics - ENHANCED */}
           <motion.div
             variants={itemVariants}
-            className="mt-12 grid grid-cols-2 sm:grid-cols-4 gap-4"
+            className="mt-14 grid grid-cols-2 sm:grid-cols-4 gap-3 sm:gap-4"
           >
-            <div className="p-4 rounded-xl bg-gray-50 dark:bg-[#1a1a1a] border border-gray-200 dark:border-[#1a1a1a] text-center">
-              <div className="text-2xl font-bold text-[#0a0a0a] dark:text-white">2</div>
-              <p className="text-xs text-gray-600 dark:text-gray-400 mt-1">Hartron Projects</p>
-            </div>
-            <div className="p-4 rounded-xl bg-gray-50 dark:bg-[#1a1a1a] border border-gray-200 dark:border-[#1a1a1a] text-center">
-              <div className="text-2xl font-bold text-[#0a0a0a] dark:text-white">2</div>
-              <p className="text-xs text-gray-600 dark:text-gray-400 mt-1">Freelancing Projects</p>
-            </div>
-            <div className="p-4 rounded-xl bg-gray-50 dark:bg-[#1a1a1a] border border-gray-200 dark:border-[#1a1a1a] text-center">
-              <div className="text-2xl font-bold text-[#0a0a0a] dark:text-white">4</div>
-              <p className="text-xs text-gray-600 dark:text-gray-400 mt-1">Learning Projects</p>
-            </div>
-            <div className="p-4 rounded-xl bg-gray-50 dark:bg-[#1a1a1a] border border-gray-200 dark:border-[#1a1a1a] text-center">
-              <div className="text-2xl font-bold text-[#0a0a0a] dark:text-white">8</div>
-              <p className="text-xs text-gray-600 dark:text-gray-400 mt-1">Total Projects</p>
-            </div>
+            {stats.map((stat, idx) => (
+              <div 
+                key={idx}
+                className="p-4 sm:p-5 rounded-xl bg-gray-50 dark:bg-[#1a1a1a] border border-gray-200 dark:border-[#1a1a1a] text-center hover:border-gray-300 dark:hover:border-gray-700 transition-all duration-300 hover:-translate-y-1 hover:shadow-md"
+              >
+                <div className="text-2xl sm:text-3xl font-bold text-[#0a0a0a] dark:text-white">
+                  {stat.count}
+                </div>
+                <div className="text-xs sm:text-sm text-gray-600 dark:text-gray-400 mt-1">
+                  {stat.label}
+                </div>
+              </div>
+            ))}
           </motion.div>
         </motion.div>
       </div>
