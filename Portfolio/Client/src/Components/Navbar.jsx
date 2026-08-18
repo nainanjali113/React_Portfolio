@@ -1,277 +1,330 @@
-// components/Navbar.jsx
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect, useContext, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
-    FaGithub,
-    FaLinkedin,
-    FaEnvelope,
-    FaHome,
-    FaUser,
-    FaBriefcase,
-    FaCode,
-    FaPhone,
-    FaTools,
-    FaMedal
-} from 'react-icons/fa';
-import {
-    MdMenu,
-    MdClose,
-    MdLightMode,
-    MdDarkMode
-} from 'react-icons/md';
-import { useTheme } from '../context/ThemeContext.jsx';
+    FiMenu,
+    FiX,
+    FiSun,
+    FiMoon,
+    FiHome,
+    FiAward,
+    FiFolder,
+    FiClock,
+    FiSend,
+    FiGithub,
+    FiLinkedin,
+} from 'react-icons/fi';
+import { ThemeContext } from '../context/ThemeContext';
 
 export default function Navbar() {
-    const { isDark, toggleTheme } = useTheme();
+    const { isDarkMode, toggleTheme } = useContext(ThemeContext);
     const [isOpen, setIsOpen] = useState(false);
-    const [scrolled, setScrolled] = useState(false);
     const [activeSection, setActiveSection] = useState('home');
+    const [isScrolled, setIsScrolled] = useState(false);
 
-    // Nav links matching your App.jsx sections
-    const navLinks = [
-        { name: 'Home', href: '#home', icon: FaHome },
-        // { name: 'Hero', href: '#hero', icon: FaUser },  
-        { name: 'Skills', href: '#skills', icon: FaTools },
-        { name: 'Projects', href: '#projects', icon: FaCode },
-        { name: 'Experience', href: '#experience', icon: FaMedal },
-        { name: 'ContactUs', href: '#contact', icon: FaPhone },
+    // Navigation items
+    const navItems = [
+        { id: 'home', label: 'Home', icon: FiHome },
+        { id: 'skills', label: 'Skills', icon: FiAward },
+        { id: 'project', label: 'Project', icon: FiFolder },
+        { id: 'experience', label: 'Experience', icon: FiClock },
+        { id: 'contact', label: 'ContactUs', icon: FiSend },
     ];
 
+    // Social links
     const socialLinks = [
-        { icon: FaGithub, href: 'https://github.com/nainanjali113', label: 'GitHub' },
-        { icon: FaLinkedin, href: 'https://www.linkedin.com/in/anjani-nain-465292389/', label: 'LinkedIn' },
-        { icon: FaEnvelope, href: 'mailto:nainanjali113@gmail.com', label: 'Email' },
+        { icon: FiGithub, href: 'https://github.com/nainanjali113', label: 'GitHub' },
+        { icon: FiLinkedin, href: 'https://www.linkedin.com/in/anjani-nain-465292389/', label: 'LinkedIn' },
     ];
 
+    // Handle scroll effect for shadow and active section
     useEffect(() => {
         const handleScroll = () => {
-            setScrolled(window.scrollY > 20);
+            setIsScrolled(window.scrollY > 20);
 
-            const sections = navLinks.map(link => link.href.substring(1));
-            const current = sections.find(section => {
-                const element = document.getElementById(section);
-                if (element) {
-                    const rect = element.getBoundingClientRect();
-                    return rect.top <= 100 && rect.bottom >= 100;
+            // Update active section based on scroll position
+            const sections = navItems.map(item => document.getElementById(item.id));
+            const scrollPosition = window.scrollY + 150;
+
+            let foundActive = false;
+            sections.forEach((section, index) => {
+                if (section) {
+                    const sectionTop = section.offsetTop;
+                    const sectionBottom = sectionTop + section.offsetHeight;
+
+                    if (scrollPosition >= sectionTop && scrollPosition < sectionBottom) {
+                        if (navItems[index].id !== activeSection) {
+                            setActiveSection(navItems[index].id);
+                        }
+                        foundActive = true;
+                    }
                 }
-                return false;
             });
-            if (current) setActiveSection(current);
+
+            // If no section is found, set to home
+            if (!foundActive && window.scrollY < 100) {
+                if (activeSection !== 'home') {
+                    setActiveSection('home');
+                }
+            }
         };
 
         window.addEventListener('scroll', handleScroll);
+        // Initial check after component mounts
+        setTimeout(handleScroll, 100);
+        
         return () => window.removeEventListener('scroll', handleScroll);
-    }, []);
+    }, [activeSection]);
 
-    const scrollToSection = (e, href) => {
-        e.preventDefault();
-        const element = document.querySelector(href);
+    // Prevent body scroll when mobile menu is open
+    useEffect(() => {
+        if (isOpen) {
+            document.body.style.overflow = 'hidden';
+        } else {
+            document.body.style.overflow = 'unset';
+        }
+        return () => {
+            document.body.style.overflow = 'unset';
+        };
+    }, [isOpen]);
+
+    // Close mobile menu on resize to desktop
+    useEffect(() => {
+        const handleResize = () => {
+            if (window.innerWidth >= 1024 && isOpen) {
+                setIsOpen(false);
+            }
+        };
+        window.addEventListener('resize', handleResize);
+        return () => window.removeEventListener('resize', handleResize);
+    }, [isOpen]);
+
+    const handleNavClick = (sectionId) => {
+        setIsOpen(false);
+        
+        // Update active section
+        setActiveSection(sectionId);
+        
+        // Smooth scroll to section
+        const element = document.getElementById(sectionId);
         if (element) {
-            element.scrollIntoView({ behavior: 'smooth' });
-            setIsOpen(false);
+            element.scrollIntoView({ behavior: 'smooth', block: 'start' });
         }
     };
 
-    return (
-        <motion.nav
-            initial={{ y: -100 }}
-            animate={{ y: 0 }}
-            transition={{ duration: 0.5 }}
-            className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300
-                       dark:bg-navy/95 bg-white/95 backdrop-blur-lg
-                       dark:shadow-xl shadow-xl
-                       dark:border-navy border-white/20
-                       ${scrolled ? 'dark:shadow-electric/10 shadow-electric/10' : ''}`}
-        >
-            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                <div className="flex items-center justify-between h-16 md:h-20">
-                    {/* Logo */}
-                    <motion.a
-                        href="#home"
-                        whileHover={{ scale: 1.05 }}
-                        whileTap={{ scale: 0.95 }}
-                        className="flex items-center space-x-2 cursor-pointer"
-                        onClick={(e) => scrollToSection(e, '#home')}
-                    >
-                        <div className="w-10 h-10 rounded-lg bg-gradient-to-r from-electric to-cyan flex items-center justify-center shadow-lg shadow-electric/30">
-                            <span className="text-white font-bold text-xl">A</span>
-                        </div>
-                        <span className="font-bold text-2xl dark:text-white text-navy">
-                            Anjani
-                        </span>
-                    </motion.a>
+    // Check if current route matches section
+    const isActive = (sectionId) => {
+        return activeSection === sectionId;
+    };
 
-                    {/* Desktop Navigation */}
-                    <div className="hidden md:flex items-center space-x-1">
-                        {navLinks.map((link) => {
-                            const Icon = link.icon;
-                            const isActive = activeSection === link.href.substring(1);
-                            return (
-                                <motion.a
-                                    key={link.name}
-                                    href={link.href}
-                                    whileHover={{ scale: 1.05 }}
-                                    whileTap={{ scale: 0.95 }}
-                                    onClick={(e) => scrollToSection(e, link.href)}
-                                    className={`relative px-4 py-2 rounded-lg text-sm font-medium 
-                                              transition-all duration-300 flex items-center space-x-2
-                                              ${isActive
-                                            ? 'text-electric bg-electric/10 dark:bg-electric/10'
-                                            : 'text-slate dark:text-slate hover:text-navy dark:hover:text-white hover:bg-electric/10 dark:hover:bg-electric/10'
-                                        }`}
+    return (
+        <>
+            {/* Navbar - Fixed position always */}
+            <nav
+                className={`
+                    fixed top-0 left-0 right-0 z-50 w-full
+                    transition-all duration-300
+                    ${isScrolled || isOpen
+                        ? 'bg-white dark:bg-[#0a0a0a] backdrop-blur-md shadow-lg'
+                        : 'bg-white/90 dark:bg-[#0a0a0a]/90 backdrop-blur-sm'
+                    }
+                    border-b border-gray-200/50 dark:border-[#1a1a1a]/80
+                `}
+            >
+                <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+                    <div className="flex items-center justify-between h-16 md:h-20">
+                        {/* Logo/Brand */}
+                        <div className="flex-shrink-0">
+                            <a
+                                href="#home"
+                                className="text-2xl md:text-3xl font-bold text-[#0a0a0a] dark:text-white"
+                                onClick={(e) => {
+                                    e.preventDefault();
+                                    handleNavClick('home');
+                                }}
+                            >
+                                Portfolio
+                            </a>
+                        </div>
+
+                        {/* Desktop Navigation */}
+                        <div className="hidden lg:flex items-center space-x-1">
+                            {navItems.map((item) => (
+                                <a
+                                    key={item.id}
+                                    href={`#${item.id}`}
+                                    onClick={(e) => {
+                                        e.preventDefault();
+                                        handleNavClick(item.id);
+                                    }}
+                                    className={`
+                                        relative px-4 py-2 rounded-lg text-sm font-medium transition-all duration-300
+                                        ${isActive(item.id)
+                                            ? 'text-[#0a0a0a] dark:text-white font-semibold'
+                                            : 'text-gray-600 dark:text-gray-400 hover:text-[#0a0a0a] dark:hover:text-white'
+                                        }
+                                    `}
                                 >
-                                    <Icon size={16} />
-                                    <span>{link.name}</span>
-                                    {isActive && (
+                                    <span className="flex items-center gap-2">
+                                        <item.icon className="w-4 h-4" />
+                                        {item.label}
+                                    </span>
+                                    {isActive(item.id) && (
                                         <motion.div
-                                            layoutId="activeSection"
-                                            className="absolute bottom-0 left-0 right-0 h-0.5 bg-gradient-to-r from-electric to-cyan"
-                                            transition={{ type: "spring", stiffness: 380, damping: 30 }}
+                                            layoutId="activeIndicator"
+                                            className="absolute bottom-0 left-0 right-0 h-0.5 bg-[#0a0a0a] dark:bg-white rounded-full"
+                                            transition={{ type: 'spring', duration: 0.5 }}
                                         />
                                     )}
-                                </motion.a>
-                            );
-                        })}
-                    </div>
+                                </a>
+                            ))}
+                        </div>
 
-                    {/* Right side - Social & Theme Toggle */}
-                    <div className="flex items-center space-x-2 md:space-x-3">
-                        {/* Social Icons - Desktop */}
-                        <div className="hidden md:flex items-center space-x-2">
-                            {socialLinks.map((social) => {
-                                const Icon = social.icon;
-                                return (
-                                    <motion.a
-                                        key={social.label}
+                        {/* Right side: Social icons & Theme toggle */}
+                        <div className="flex items-center gap-2 md:gap-4">
+                            {/* Social Links - Desktop */}
+                            <div className="hidden md:flex items-center gap-1">
+                                {socialLinks.map((social, index) => (
+                                    <a
+                                        key={index}
                                         href={social.href}
                                         target="_blank"
                                         rel="noopener noreferrer"
-                                        whileHover={{ scale: 1.1, y: -2 }}
-                                        whileTap={{ scale: 0.9 }}
-                                        className="p-2 rounded-lg transition-all duration-300
-                                                 text-navy dark:text-slate 
-                                                 hover:text-electric dark:hover:text-cyan 
-                                                 hover:bg-electric/10 dark:hover:bg-electric/10"
+                                        className="p-2 text-gray-500 dark:text-gray-500 hover:text-[#0a0a0a] dark:hover:text-white transition-colors rounded-lg hover:bg-gray-100 dark:hover:bg-[#1a1a1a]"
+                                        aria-label={social.label}
                                     >
-                                        <Icon size={20} />
-                                    </motion.a>
-                                );
-                            })}
+                                        <social.icon className="w-5 h-5" />
+                                    </a>
+                                ))}
+                            </div>
+
+                            {/* Theme Toggle */}
+                            <button
+                                onClick={toggleTheme}
+                                className="p-2 rounded-lg text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-[#1a1a1a] transition-colors"
+                                aria-label="Toggle theme"
+                            >
+                                {isDarkMode ? (
+                                    <FiSun className="w-5 h-5 text-yellow-400" />
+                                ) : (
+                                    <FiMoon className="w-5 h-5 text-[#0a0a0a]" />
+                                )}
+                            </button>
+
+                            {/* Mobile Menu Button */}
+                            <button
+                                onClick={() => setIsOpen(!isOpen)}
+                                className="lg:hidden p-2 rounded-lg text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-[#1a1a1a] transition-colors"
+                                aria-label="Toggle menu"
+                            >
+                                {isOpen ? (
+                                    <FiX className="w-6 h-6" />
+                                ) : (
+                                    <FiMenu className="w-6 h-6" />
+                                )}
+                            </button>
                         </div>
-
-                        <div className="w-px h-6 bg-slate/30 hidden md:block" />
-
-                        {/* Theme Toggle */}
-                        <motion.button
-                            whileHover={{ scale: 1.1, rotate: 180 }}
-                            whileTap={{ scale: 0.9 }}
-                            onClick={toggleTheme}
-                            className="relative p-2 rounded-lg transition-all duration-300
-                                     text-navy dark:text-white 
-                                     hover:text-electric dark:hover:text-cyan 
-                                     hover:bg-electric/10 dark:hover:bg-electric/10"
-                            aria-label="Toggle theme"
-                        >
-                            <AnimatePresence mode="wait" initial={false}>
-                                <motion.div
-                                    key={isDark ? 'dark' : 'light'}
-                                    initial={{ opacity: 0, rotate: -180, scale: 0.5 }}
-                                    animate={{ opacity: 1, rotate: 0, scale: 1 }}
-                                    exit={{ opacity: 0, rotate: 180, scale: 0.5 }}
-                                    transition={{ duration: 0.3 }}
-                                >
-                                    {isDark ? (
-                                        <MdLightMode size={20} className="text-cyan" />
-                                    ) : (
-                                        <MdDarkMode size={20} className="text-navy" />
-                                    )}
-                                </motion.div>
-                            </AnimatePresence>
-                        </motion.button>
-
-                        {/* Mobile Menu Button */}
-                        <motion.button
-                            whileHover={{ scale: 1.1 }}
-                            whileTap={{ scale: 0.9 }}
-                            onClick={() => setIsOpen(!isOpen)}
-                            className="md:hidden p-2 rounded-lg transition-all duration-300
-                                     text-navy dark:text-white 
-                                     hover:text-electric dark:hover:text-cyan
-                                     hover:bg-electric/10 dark:hover:bg-electric/10"
-                            aria-label="Toggle menu"
-                        >
-                            {isOpen ? <MdClose size={24} /> : <MdMenu size={24} />}
-                        </motion.button>
                     </div>
                 </div>
-            </div>
+            </nav>
+
+            {/* Mobile Menu Overlay */}
+            <AnimatePresence>
+                {isOpen && (
+                    <motion.div
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        exit={{ opacity: 0 }}
+                        transition={{ duration: 0.2 }}
+                        className="fixed inset-0 z-40 bg-[#0a0a0a]/60 backdrop-blur-sm lg:hidden"
+                        onClick={() => setIsOpen(false)}
+                    />
+                )}
+            </AnimatePresence>
 
             {/* Mobile Menu */}
             <AnimatePresence>
                 {isOpen && (
                     <motion.div
-                        initial={{ opacity: 0, height: 0 }}
-                        animate={{ opacity: 1, height: 'auto' }}
-                        exit={{ opacity: 0, height: 0 }}
-                        transition={{ duration: 0.3 }}
-                        className="md:hidden border-t dark:border-electric/20 border-electric/20
-                                 dark:bg-navy bg-white"
+                        initial={{ x: '100%' }}
+                        animate={{ x: 0 }}
+                        exit={{ x: '100%' }}
+                        transition={{ type: 'spring', damping: 25, stiffness: 200 }}
+                        className="fixed top-0 right-0 z-50 w-[280px] max-w-[80vw] h-full bg-white dark:bg-[#0a0a0a] shadow-2xl lg:hidden"
                     >
-                        <div className="px-4 py-3 space-y-1">
-                            {navLinks.map((link) => {
-                                const Icon = link.icon;
-                                const isActive = activeSection === link.href.substring(1);
-                                return (
+                        <div className="flex flex-col h-full p-6">
+                            {/* Close button */}
+                            <div className="flex justify-between items-center mb-8">
+                                <span className="text-xl font-bold text-[#0a0a0a] dark:text-white">
+                                    Menu
+                                </span>
+                                <button
+                                    onClick={() => setIsOpen(false)}
+                                    className="p-2 rounded-lg text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-[#1a1a1a] transition-colors"
+                                >
+                                    <FiX className="w-6 h-6" />
+                                </button>
+                            </div>
+
+                            {/* Navigation Items */}
+                            <nav className="flex-1 space-y-2">
+                                {navItems.map((item, index) => (
                                     <motion.a
-                                        key={link.name}
-                                        href={link.href}
-                                        whileHover={{ x: 10 }}
-                                        onClick={(e) => scrollToSection(e, link.href)}
-                                        className={`flex items-center space-x-3 px-4 py-3 rounded-lg 
-                                                  transition-all duration-300
-                                                  ${isActive
-                                                ? 'text-electric bg-electric/10'
-                                                : 'text-navy dark:text-slate hover:text-electric dark:hover:text-white hover:bg-electric/5 dark:hover:bg-electric/5'
-                                            }`}
+                                        key={item.id}
+                                        href={`#${item.id}`}
+                                        initial={{ x: -20, opacity: 0 }}
+                                        animate={{ x: 0, opacity: 1 }}
+                                        transition={{ delay: index * 0.05 }}
+                                        onClick={(e) => {
+                                            e.preventDefault();
+                                            handleNavClick(item.id);
+                                        }}
+                                        className={`
+                                            flex items-center gap-3 px-4 py-3 rounded-lg text-sm font-medium transition-all duration-300
+                                            ${isActive(item.id)
+                                                ? 'bg-gray-100 dark:bg-[#1a1a1a] text-[#0a0a0a] dark:text-white font-semibold'
+                                                : 'text-gray-600 dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-[#1a1a1a]'
+                                            }
+                                        `}
                                     >
-                                        <Icon size={20} />
-                                        <span className="font-medium">{link.name}</span>
-                                        {isActive && (
+                                        <item.icon className={`w-5 h-5 ${isActive(item.id) ? 'text-[#0a0a0a] dark:text-white' : ''}`} />
+                                        {item.label}
+                                        {isActive(item.id) && (
                                             <motion.div
                                                 layoutId="mobileActiveIndicator"
-                                                className="ml-auto w-1 h-6 rounded-full bg-gradient-to-b from-electric to-cyan"
+                                                className="ml-auto w-1 h-8 rounded-full bg-[#0a0a0a] dark:bg-white"
                                             />
                                         )}
                                     </motion.a>
-                                );
-                            })}
+                                ))}
+                            </nav>
 
-                            <div className="pt-3 mt-3 border-t border-slate/20">
-                                <div className="flex items-center justify-around px-4">
-                                    {socialLinks.map((social) => {
-                                        const Icon = social.icon;
-                                        return (
-                                            <motion.a
-                                                key={social.label}
-                                                href={social.href}
-                                                target="_blank"
-                                                rel="noopener noreferrer"
-                                                whileHover={{ scale: 1.1, y: -2 }}
-                                                whileTap={{ scale: 0.9 }}
-                                                className="p-2 rounded-lg transition-all duration-300
-                                                         text-navy dark:text-slate 
-                                                         hover:text-electric dark:hover:text-cyan"
-                                            >
-                                                <Icon size={22} />
-                                            </motion.a>
-                                        );
-                                    })}
+                            {/* Social Links - Mobile */}
+                            <div className="pt-6 border-t border-gray-200 dark:border-[#1a1a1a]">
+                                <p className="text-xs uppercase tracking-wider text-gray-500 dark:text-gray-500 mb-4">
+                                    Connect with me
+                                </p>
+                                <div className="flex gap-3">
+                                    {socialLinks.map((social, index) => (
+                                        <a
+                                            key={index}
+                                            href={social.href}
+                                            target="_blank"
+                                            rel="noopener noreferrer"
+                                            className="p-3 bg-gray-100 dark:bg-[#1a1a1a] rounded-lg text-gray-600 dark:text-gray-400 hover:text-[#0a0a0a] dark:hover:text-white transition-colors flex-1 flex items-center justify-center"
+                                            aria-label={social.label}
+                                        >
+                                            <social.icon className="w-5 h-5" />
+                                        </a>
+                                    ))}
                                 </div>
                             </div>
                         </div>
                     </motion.div>
                 )}
             </AnimatePresence>
-        </motion.nav>
+
+            {/* Spacer for fixed navbar */}
+            <div className="h-16 md:h-20" />
+        </>
     );
 }

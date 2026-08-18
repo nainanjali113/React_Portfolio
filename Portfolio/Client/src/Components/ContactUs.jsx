@@ -1,375 +1,343 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import {
-    FaEnvelope,
-    FaPhone,
-    FaMapMarkerAlt,
-    FaGithub,
-    FaLinkedin,
-    FaPaperPlane,
-    FaUser,
-    FaComment,
-    FaCheckCircle,
-    FaSpinner
-} from 'react-icons/fa';
-import { useTheme } from '../context/ThemeContext';
+  FiMail,
+  FiMapPin,
+  FiPhone,
+  FiSend,
+  FiGithub,
+  FiLinkedin,
+  FiMessageSquare,
+  FiUser,
+  FiMessageCircle
+} from 'react-icons/fi';
 
 export default function ContactUs() {
-    const { isDark } = useTheme();
-    const [formData, setFormData] = useState({
-        name: '',
-        email: '',
-        subject: '',
-        message: ''
+  // Animation variants
+  const containerVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.1,
+        delayChildren: 0.2
+      }
+    }
+  };
+
+  const itemVariants = {
+    hidden: { y: 20, opacity: 0 },
+    visible: {
+      y: 0,
+      opacity: 1,
+      transition: { duration: 0.4, ease: "easeOut" }
+    }
+  };
+
+  // Contact Information
+  const contactInfo = [
+    {
+      icon: FiMail,
+      title: "Email",
+      value: "nainanjali113@gmail.com",
+      link: "mailto:nainanjali113@gmail.com"
+    },
+    {
+      icon: FiPhone,
+      title: "Phone",
+      value: "+91 9034155632",
+      link: "tel:+919034155632"
+    },
+    {
+      icon: FiMapPin,
+      title: "Location",
+      value: "Narwana, Jind, Haryana, India",
+      link: "https://maps.google.com"
+    }
+  ];
+
+  // Social Links
+  const socialLinks = [
+    { 
+      icon: FiGithub, 
+      href: "https://github.com/nainanjali113", 
+      label: "GitHub" 
+    },
+    { 
+      icon: FiLinkedin, 
+      href: "https://www.linkedin.com/in/anjani-nain-465292389/", 
+      label: "LinkedIn" 
+    }
+  ];
+
+  // Form state
+  const [formData, setFormData] = useState({
+    name: '',
+    email: '',
+    subject: '',
+    message: ''
+  });
+
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitStatus, setSubmitStatus] = useState(null);
+
+  // Handle form input changes
+  const handleChange = (e) => {
+    setFormData({ 
+      ...formData, 
+      [e.target.name]: e.target.value 
     });
-    const [isSubmitting, setIsSubmitting] = useState(false);
-    const [isSubmitted, setIsSubmitted] = useState(false);
+  };
 
-    const contactInfo = [
-        {
-            icon: FaEnvelope,
-            label: 'Email',
-            value: 'nainanjali113@gmail.com',
-            href: 'mailto:nainanjali113@gmail.com',
-            color: 'from-blue-500 to-cyan-500'
-        },
-        {
-            icon: FaPhone,
-            label: 'Phone',
-            value: '+91 9034155632',
-            href: 'tel:+919034155632',
-            color: 'from-green-500 to-emerald-500'
-        },
-        {
-            icon: FaMapMarkerAlt,
-            label: 'Location',
-            value: 'Narwana, Jind, Haryana, India',
-            href: '#',
-            color: 'from-red-500 to-orange-500'
-        }
-    ];
+  // Handle form submission
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    setIsSubmitting(true);
 
-    const socialLinks = [
-        { icon: FaGithub, href: 'https://github.com/nainanjali113', label: 'GitHub', color: 'hover:text-gray-400' },
-        { icon: FaLinkedin, href: 'https://www.linkedin.com/in/anjani-nain-465292389/', label: 'LinkedIn', color: 'hover:text-blue-500' }
-    ];
+    // Simulate form submission
+    setTimeout(() => {
+      setSubmitStatus('success');
+      setIsSubmitting(false);
+      setFormData({ 
+        name: '', 
+        email: '', 
+        subject: '', 
+        message: '' 
+      });
 
-    const handleChange = (e) => {
-        setFormData({
-            ...formData,
-            [e.target.name]: e.target.value
-        });
-    };
+      // Reset status after 5 seconds
+      setTimeout(() => setSubmitStatus(null), 5000);
+    }, 1500);
+  };
 
-    const handleSubmit = async (e) => {
-        e.preventDefault();
-        setIsSubmitting(true);
-
-        // Simulate form submission
-        await new Promise(resolve => setTimeout(resolve, 2000));
-
-        setIsSubmitting(false);
-        setIsSubmitted(true);
-        setFormData({ name: '', email: '', subject: '', message: '' });
-
-        setTimeout(() => setIsSubmitted(false), 5000);
-    };
-
-    const containerVariants = {
-        hidden: { opacity: 0 },
-        visible: {
-            opacity: 1,
-            transition: {
-                staggerChildren: 0.1
-            }
-        }
-    };
-
-    const itemVariants = {
-        hidden: { y: 20, opacity: 0 },
-        visible: {
-            y: 0,
-            opacity: 1,
-            transition: {
-                duration: 0.5
-            }
-        }
-    };
-
-    return (
-        <section id="contact" className={`py-20 ${isDark ? 'bg-navy' : 'bg-gray-50'}`}>
-            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                {/* Section Header */}
-                <motion.div
-                    initial={{ opacity: 0, y: -20 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.6 }}
-                    viewport={{ once: true }}
-                    className="text-center mb-12"
-                >
-                    <h2 className="text-4xl md:text-5xl font-bold mb-4">
-                        <span className="bg-gradient-to-r from-electric to-cyan bg-clip-text text-transparent">
-                            Get In Touch
-                        </span>
-                    </h2>
-                    <p className={`text-lg max-w-2xl mx-auto ${isDark ? 'text-slate' : 'text-gray-600'}`}>
-                        Have a question or want to work together? Let's connect!
-                    </p>
-                    <div className="w-24 h-1 bg-gradient-to-r from-electric to-cyan mx-auto mt-4 rounded-full" />
-                </motion.div>
-
-                <div className="grid lg:grid-cols-3 gap-8">
-                    {/* Contact Info */}
-                    <motion.div
-                        variants={containerVariants}
-                        initial="hidden"
-                        whileInView="visible"
-                        viewport={{ once: true }}
-                        className="lg:col-span-1 space-y-6"
-                    >
-                        <motion.div
-                            variants={itemVariants}
-                            className={`p-6 rounded-2xl ${isDark ? 'bg-navy/80 border border-electric/20' : 'bg-white border border-gray-200 shadow-lg'}`}
-                        >
-                            <h3 className={`text-xl font-bold mb-4 ${isDark ? 'text-white' : 'text-navy'}`}>
-                                Contact Information
-                            </h3>
-                            <p className={`text-sm mb-6 ${isDark ? 'text-slate' : 'text-gray-600'}`}>
-                                Feel free to reach out through any of the following channels.
-                            </p>
-
-                            <div className="space-y-4">
-                                {contactInfo.map((info, index) => {
-                                    const Icon = info.icon;
-                                    return (
-                                        <motion.a
-                                            key={index}
-                                            href={info.href}
-                                            target={info.label === 'Location' ? '_self' : '_blank'}
-                                            rel="noopener noreferrer"
-                                            whileHover={{ x: 5 }}
-                                            className={`flex items-center gap-4 p-3 rounded-xl transition-all duration-300
-                                                ${isDark
-                                                    ? 'hover:bg-white/5 border border-transparent hover:border-electric/20'
-                                                    : 'hover:bg-gray-50 border border-transparent hover:border-gray-200'
-                                                }`}
-                                        >
-                                            <div className={`p-3 rounded-xl bg-gradient-to-r ${info.color}`}>
-                                                <Icon className="w-5 h-5 text-white" />
-                                            </div>
-                                            <div>
-                                                <p className={`text-xs font-medium ${isDark ? 'text-slate' : 'text-gray-500'}`}>
-                                                    {info.label}
-                                                </p>
-                                                <p className={`text-sm font-medium ${isDark ? 'text-white' : 'text-navy'}`}>
-                                                    {info.value}
-                                                </p>
-                                            </div>
-                                        </motion.a>
-                                    );
-                                })}
-                            </div>
-                        </motion.div>
-
-                        {/* Social Links */}
-                        <motion.div
-                            variants={itemVariants}
-                            className={`p-6 rounded-2xl ${isDark ? 'bg-navy/80 border border-electric/20' : 'bg-white border border-gray-200 shadow-lg'}`}
-                        >
-                            <h3 className={`text-xl font-bold mb-4 ${isDark ? 'text-white' : 'text-navy'}`}>
-                                Connect With Me
-                            </h3>
-                            <div className="flex gap-3 flex-wrap">
-                                {socialLinks.map((social, index) => {
-                                    const Icon = social.icon;
-                                    return (
-                                        <motion.a
-                                            key={index}
-                                            href={social.href}
-                                            target="_blank"
-                                            rel="noopener noreferrer"
-                                            whileHover={{ y: -5, scale: 1.1 }}
-                                            whileTap={{ scale: 0.9 }}
-                                            className={`p-3 rounded-xl transition-all duration-300
-                                                ${isDark
-                                                    ? 'bg-white/5 hover:bg-white/10 border border-white/10'
-                                                    : 'bg-gray-100 hover:bg-gray-200 border border-gray-200'
-                                                } ${social.color}`}
-                                            aria-label={social.label}
-                                        >
-                                            <Icon className={`w-6 h-6 ${isDark ? 'text-slate' : 'text-gray-600'}`} />
-                                        </motion.a>
-                                    );
-                                })}
-                            </div>
-                        </motion.div>
-
-                        {/* Availability Status */}
-                        <motion.div
-                            variants={itemVariants}
-                            className={`p-4 rounded-2xl ${isDark ? 'bg-navy/80 border border-green-500/20' : 'bg-white border border-green-500/20 shadow-lg'}`}
-                        >
-                            <div className="flex items-center gap-3">
-                                <div className="w-3 h-3 rounded-full bg-green-500 animate-pulse" />
-                                <div>
-                                    <p className={`text-sm font-medium ${isDark ? 'text-white' : 'text-navy'}`}>
-                                        Available for Freelance
-                                    </p>
-                                    <p className={`text-xs ${isDark ? 'text-slate' : 'text-gray-500'}`}>
-                                        Open to new opportunities
-                                    </p>
-                                </div>
-                            </div>
-                        </motion.div>
-                    </motion.div>
-
-                    {/* Contact Form */}
-                    <motion.div
-                        variants={containerVariants}
-                        initial="hidden"
-                        whileInView="visible"
-                        viewport={{ once: true }}
-                        className="lg:col-span-2"
-                    >
-                        <motion.div
-                            variants={itemVariants}
-                            className={`p-8 rounded-2xl ${isDark ? 'bg-navy/80 border border-electric/20' : 'bg-white border border-gray-200 shadow-lg'}`}
-                        >
-                            <h3 className={`text-2xl font-bold mb-6 ${isDark ? 'text-white' : 'text-navy'}`}>
-                                Send Me a Message
-                            </h3>
-
-                            {isSubmitted ? (
-                                <motion.div
-                                    initial={{ opacity: 0, scale: 0.9 }}
-                                    animate={{ opacity: 1, scale: 1 }}
-                                    className="text-center py-8"
-                                >
-                                    <FaCheckCircle className="w-16 h-16 text-green-500 mx-auto mb-4" />
-                                    <h3 className={`text-2xl font-bold ${isDark ? 'text-white' : 'text-navy'}`}>
-                                        Message Sent! 🎉
-                                    </h3>
-                                    <p className={`text-sm mt-2 ${isDark ? 'text-slate' : 'text-gray-600'}`}>
-                                        Thank you for reaching out. I'll get back to you soon!
-                                    </p>
-                                </motion.div>
-                            ) : (
-                                <form onSubmit={handleSubmit} className="space-y-5">
-                                    <div className="grid md:grid-cols-2 gap-5">
-                                        <div>
-                                            <label className={`block text-sm font-medium mb-2 ${isDark ? 'text-slate' : 'text-gray-700'}`}>
-                                                Your Name
-                                            </label>
-                                            <div className="relative">
-                                                <FaUser className={`absolute left-3 top-1/2 transform -translate-y-1/2 ${isDark ? 'text-slate' : 'text-gray-400'}`} />
-                                                <input
-                                                    type="text"
-                                                    name="name"
-                                                    value={formData.name}
-                                                    onChange={handleChange}
-                                                    required
-                                                    className={`w-full pl-10 pr-4 py-3 rounded-xl transition-all duration-300
-                                                        ${isDark
-                                                            ? 'bg-navy/60 border border-electric/20 focus:border-electric text-white'
-                                                            : 'bg-gray-50 border border-gray-200 focus:border-electric text-navy'
-                                                        } focus:outline-none focus:ring-2 focus:ring-electric/20`}
-                                                    placeholder="John Doe"
-                                                />
-                                            </div>
-                                        </div>
-                                        <div>
-                                            <label className={`block text-sm font-medium mb-2 ${isDark ? 'text-slate' : 'text-gray-700'}`}>
-                                                Your Email
-                                            </label>
-                                            <div className="relative">
-                                                <FaEnvelope className={`absolute left-3 top-1/2 transform -translate-y-1/2 ${isDark ? 'text-slate' : 'text-gray-400'}`} />
-                                                <input
-                                                    type="email"
-                                                    name="email"
-                                                    value={formData.email}
-                                                    onChange={handleChange}
-                                                    required
-                                                    className={`w-full pl-10 pr-4 py-3 rounded-xl transition-all duration-300
-                                                        ${isDark
-                                                            ? 'bg-navy/60 border border-electric/20 focus:border-electric text-white'
-                                                            : 'bg-gray-50 border border-gray-200 focus:border-electric text-navy'
-                                                        } focus:outline-none focus:ring-2 focus:ring-electric/20`}
-                                                    placeholder="john@example.com"
-                                                />
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <div>
-                                        <label className={`block text-sm font-medium mb-2 ${isDark ? 'text-slate' : 'text-gray-700'}`}>
-                                            Subject
-                                        </label>
-                                        <input
-                                            type="text"
-                                            name="subject"
-                                            value={formData.subject}
-                                            onChange={handleChange}
-                                            required
-                                            className={`w-full px-4 py-3 rounded-xl transition-all duration-300
-                                                ${isDark
-                                                    ? 'bg-navy/60 border border-electric/20 focus:border-electric text-white'
-                                                    : 'bg-gray-50 border border-gray-200 focus:border-electric text-navy'
-                                                } focus:outline-none focus:ring-2 focus:ring-electric/20`}
-                                            placeholder="Project Discussion"
-                                        />
-                                    </div>
-
-                                    <div>
-                                        <label className={`block text-sm font-medium mb-2 ${isDark ? 'text-slate' : 'text-gray-700'}`}>
-                                            Message
-                                        </label>
-                                        <div className="relative">
-                                            <FaComment className={`absolute left-3 top-3 ${isDark ? 'text-slate' : 'text-gray-400'}`} />
-                                            <textarea
-                                                name="message"
-                                                value={formData.message}
-                                                onChange={handleChange}
-                                                required
-                                                rows="5"
-                                                className={`w-full pl-10 pr-4 py-3 rounded-xl transition-all duration-300
-                                                    ${isDark
-                                                        ? 'bg-navy/60 border border-electric/20 focus:border-electric text-white'
-                                                        : 'bg-gray-50 border border-gray-200 focus:border-electric text-navy'
-                                                    } focus:outline-none focus:ring-2 focus:ring-electric/20 resize-none`}
-                                                placeholder="Tell me about your project..."
-                                            />
-                                        </div>
-                                    </div>
-
-                                    <motion.button
-                                        type="submit"
-                                        disabled={isSubmitting}
-                                        whileHover={{ scale: 1.02 }}
-                                        whileTap={{ scale: 0.98 }}
-                                        className={`w-full py-4 rounded-xl font-medium text-white
-                                            bg-gradient-to-r from-electric to-cyan
-                                            hover:shadow-lg hover:shadow-electric/30
-                                            transition-all duration-300 flex items-center justify-center gap-2
-                                            ${isSubmitting ? 'opacity-70 cursor-not-allowed' : ''}`}
-                                    >
-                                        {isSubmitting ? (
-                                            <>
-                                                <FaSpinner className="w-5 h-5 animate-spin" />
-                                                Sending...
-                                            </>
-                                        ) : (
-                                            <>
-                                                <FaPaperPlane className="w-5 h-5" />
-                                                Send Message
-                                            </>
-                                        )}
-                                    </motion.button>
-                                </form>
-                            )}
-                        </motion.div>
-                    </motion.div>
-                </div>
+  return (
+    <section 
+      id="contact" 
+      className="py-20 px-4 sm:px-6 lg:px-8 bg-white dark:bg-[#0a0a0a] transition-colors duration-300"
+    >
+      <div className="container mx-auto max-w-6xl">
+        <motion.div
+          variants={containerVariants}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true }}
+        >
+          {/* Section Header */}
+          <motion.div 
+            variants={itemVariants} 
+            className="text-center mb-12"
+          >
+            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-gray-100 dark:bg-[#1a1a1a] border border-gray-200 dark:border-[#1a1a1a] mb-4">
+              <span className="text-sm font-medium text-gray-700 dark:text-gray-300 uppercase tracking-wider">
+                Get In Touch
+              </span>
             </div>
-        </section>
-    );
+            <h2 className="text-4xl sm:text-5xl font-extrabold text-[#0a0a0a] dark:text-white mb-4 tracking-tight">
+              Contact <span className="text-[#0a0a0a] dark:text-white">Me</span>
+            </h2>
+            <p className="text-lg text-gray-600 dark:text-gray-400 max-w-2xl mx-auto">
+              Have a question or want to work together? Let's connect!
+            </p>
+          </motion.div>
+
+          {/* Main Grid - 2 Column Layout */}
+          <div className="grid md:grid-cols-2 gap-8">
+            {/* Left Column - Contact Information */}
+            <motion.div
+              variants={itemVariants}
+              className="space-y-6"
+            >
+              <div className="bg-gray-50 dark:bg-[#1a1a1a] rounded-xl p-8 shadow-lg border border-gray-200 dark:border-[#1a1a1a] h-full">
+                <h3 className="text-xl font-bold text-[#0a0a0a] dark:text-white mb-6">
+                  Contact Information
+                </h3>
+
+                <div className="space-y-6">
+                  {contactInfo.map((info, index) => (
+                    <motion.a
+                      key={index}
+                      href={info.link}
+                      target={info.title === "Location" ? "_blank" : "_self"}
+                      rel="noopener noreferrer"
+                      variants={itemVariants}
+                      whileHover={{ x: 5 }}
+                      className="flex items-start gap-4 p-3 rounded-lg hover:bg-gray-100 dark:hover:bg-[#0a0a0a] transition-all duration-300 group"
+                    >
+                      <div className="p-3 rounded-lg bg-white dark:bg-[#0a0a0a] group-hover:bg-gray-100 dark:group-hover:bg-[#2a2a2a] transition-colors">
+                        <info.icon className="w-5 h-5 text-gray-700 dark:text-gray-300" />
+                      </div>
+                      <div>
+                        <p className="text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
+                          {info.title}
+                        </p>
+                        <p className="text-sm font-semibold text-[#0a0a0a] dark:text-white">
+                          {info.value}
+                        </p>
+                      </div>
+                    </motion.a>
+                  ))}
+                </div>
+
+                {/* Divider */}
+                <div className="my-6 border-t border-gray-200 dark:border-[#1a1a1a]"></div>
+
+                {/* Social Links */}
+                <div>
+                  <p className="text-xs font-medium text-gray-500 dark:text-gray-400 mb-4 uppercase tracking-wider">
+                    Connect with me on social media
+                  </p>
+                  <div className="flex gap-3">
+                    {socialLinks.map((social, index) => (
+                      <motion.a
+                        key={index}
+                        href={social.href}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        whileHover={{ scale: 1.1, y: -3 }}
+                        whileTap={{ scale: 0.9 }}
+                        className="p-3 rounded-lg bg-white dark:bg-[#0a0a0a] text-gray-600 dark:text-gray-400 hover:text-[#0a0a0a] dark:hover:text-white hover:bg-gray-100 dark:hover:bg-[#2a2a2a] transition-all duration-300"
+                        aria-label={social.label}
+                      >
+                        <social.icon className="w-5 h-5" />
+                      </motion.a>
+                    ))}
+                  </div>
+                </div>
+
+                {/* Availability Badge - Animation Removed */}
+                <div className="mt-6 bg-green-50 dark:bg-green-900/20 rounded-xl p-4 border border-green-200 dark:border-green-800 text-center">
+                  <div className="flex items-center justify-center gap-2">
+                    <span className="relative flex h-3 w-3">
+                      <span className="absolute inline-flex h-full w-full rounded-full bg-green-500"></span>
+                    </span>
+                    <span className="text-sm font-medium text-green-700 dark:text-green-300">
+                      Available for Freelance Work
+                    </span>
+                  </div>
+                </div>
+              </div>
+            </motion.div>
+
+            {/* Right Column - Contact Form */}
+            <motion.div
+              variants={itemVariants}
+              className="space-y-6"
+            >
+              <div className="bg-gray-50 dark:bg-[#1a1a1a] rounded-xl p-8 shadow-lg border border-gray-200 dark:border-[#1a1a1a] h-full">
+                <h3 className="text-xl font-bold text-[#0a0a0a] dark:text-white mb-6">
+                  Send Me a Message
+                </h3>
+
+                <form onSubmit={handleSubmit} className="space-y-5">
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <div>
+                      <label className="block text-xs font-medium text-gray-600 dark:text-gray-400 mb-1.5 uppercase tracking-wider">
+                        Your Name
+                      </label>
+                      <div className="relative">
+                        <FiUser className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 dark:text-gray-500 w-4 h-4" />
+                        <input
+                          type="text"
+                          name="name"
+                          value={formData.name}
+                          onChange={handleChange}
+                          required
+                          className="w-full pl-10 pr-4 py-3 bg-white dark:bg-[#0a0a0a] text-[#0a0a0a] dark:text-white rounded-lg border border-gray-200 dark:border-[#1a1a1a] focus:outline-none focus:ring-2 focus:ring-gray-400 dark:focus:ring-gray-600 transition-all text-sm"
+                          placeholder="John Doe"
+                        />
+                      </div>
+                    </div>
+                    <div>
+                      <label className="block text-xs font-medium text-gray-600 dark:text-gray-400 mb-1.5 uppercase tracking-wider">
+                        Your Email
+                      </label>
+                      <div className="relative">
+                        <FiMail className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 dark:text-gray-500 w-4 h-4" />
+                        <input
+                          type="email"
+                          name="email"
+                          value={formData.email}
+                          onChange={handleChange}
+                          required
+                          className="w-full pl-10 pr-4 py-3 bg-white dark:bg-[#0a0a0a] text-[#0a0a0a] dark:text-white rounded-lg border border-gray-200 dark:border-[#1a1a1a] focus:outline-none focus:ring-2 focus:ring-gray-400 dark:focus:ring-gray-600 transition-all text-sm"
+                          placeholder="john@example.com"
+                        />
+                      </div>
+                    </div>
+                  </div>
+
+                  <div>
+                    <label className="block text-xs font-medium text-gray-600 dark:text-gray-400 mb-1.5 uppercase tracking-wider">
+                      Subject
+                    </label>
+                    <div className="relative">
+                      <FiMessageCircle className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 dark:text-gray-500 w-4 h-4" />
+                      <input
+                        type="text"
+                        name="subject"
+                        value={formData.subject}
+                        onChange={handleChange}
+                        required
+                        className="w-full pl-10 pr-4 py-3 bg-white dark:bg-[#0a0a0a] text-[#0a0a0a] dark:text-white rounded-lg border border-gray-200 dark:border-[#1a1a1a] focus:outline-none focus:ring-2 focus:ring-gray-400 dark:focus:ring-gray-600 transition-all text-sm"
+                        placeholder="Let's work together"
+                      />
+                    </div>
+                  </div>
+
+                  <div>
+                    <label className="block text-xs font-medium text-gray-600 dark:text-gray-400 mb-1.5 uppercase tracking-wider">
+                      Message
+                    </label>
+                    <div className="relative">
+                      <FiMessageSquare className="absolute left-3 top-3 text-gray-400 dark:text-gray-500 w-4 h-4" />
+                      <textarea
+                        name="message"
+                        value={formData.message}
+                        onChange={handleChange}
+                        required
+                        rows="4"
+                        className="w-full pl-10 pr-4 py-3 bg-white dark:bg-[#0a0a0a] text-[#0a0a0a] dark:text-white rounded-lg border border-gray-200 dark:border-[#1a1a1a] focus:outline-none focus:ring-2 focus:ring-gray-400 dark:focus:ring-gray-600 transition-all resize-none text-sm"
+                        placeholder="Tell me about your project..."
+                      />
+                    </div>
+                  </div>
+
+                  <motion.button
+                    type="submit"
+                    disabled={isSubmitting}
+                    whileHover={{ scale: 1.02 }}
+                    whileTap={{ scale: 0.98 }}
+                    className="w-full py-3.5 bg-[#0a0a0a] dark:bg-white text-white dark:text-[#0a0a0a] rounded-lg font-medium hover:opacity-80 transition-opacity duration-300 flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
+                  >
+                    {isSubmitting ? (
+                      <>
+                        <span className="animate-spin rounded-full h-4 w-4 border-2 border-white dark:border-[#0a0a0a] border-t-transparent"></span>
+                        Sending...
+                      </>
+                    ) : (
+                      <>
+                        Send Message
+                        <FiSend className="w-4 h-4" />
+                      </>
+                    )}
+                  </motion.button>
+
+                  {/* Success Message */}
+                  {submitStatus === 'success' && (
+                    <motion.div
+                      initial={{ opacity: 0, y: 10 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      className="p-3 rounded-lg bg-green-50 dark:bg-green-900/20 border border-green-200 dark:border-green-800 text-green-700 dark:text-green-300 text-sm text-center"
+                    >
+                      ✅ Thank you! Your message has been sent successfully.
+                    </motion.div>
+                  )}
+                </form>
+              </div>
+            </motion.div>
+          </div>
+        </motion.div>
+      </div>
+    </section>
+  );
 }

@@ -1,443 +1,300 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import { 
-  FaGraduationCap, 
-  FaLaptopCode, 
-  FaShieldAlt, 
-  FaCode, 
-  FaBriefcase,
-  FaCalendarAlt,
-  FaMapMarkerAlt,
-  FaUsers,
-  FaAward,
-  FaRocket,
-  FaBrain,
-  FaServer,
-  FaDatabase,
-  FaReact,
-  FaNodeJs,
-  FaLock,
-  FaGitAlt,
-  FaCloud,
-  FaDesktop,
-  FaFileAlt,
-  FaCertificate,
-  FaStar,
-  FaTrophy,
-  FaMicrosoft,
-  FaClock,
-  FaCheckCircle,
-  FaArrowRight
-} from 'react-icons/fa';
-import { 
-  SiMongodb, 
-  SiExpress, 
-  SiJavascript, 
-  SiTailwindcss,
-  SiRedux,
-  SiSocketdotio,
-  SiPostgresql,
-  SiDocker
-} from 'react-icons/si';
-import { useTheme } from '../context/ThemeContext';
+import {
+  FiMapPin,
+  FiBriefcase,
+  FiShield,
+  FiClock,
+  FiBookOpen,
+  FiAward
+} from 'react-icons/fi';
+import { FaGraduationCap } from 'react-icons/fa';
 
 export default function Experience() {
-  const { isDark } = useTheme();
-
-  const experiences = [
-    {
-      id: 1,
-      title: 'Diploma in Computer Applications (DCA)',
-      organization: 'Hartron Skill Centre, Kaithal',
-      location: 'Kaithal, Haryana, India',
-      type: 'Education',
-      period: 'Jul 2024 - Sep 2025',
-      duration: '1 Year',
-      icon: FaDesktop,
-      color: 'from-yellow-500 to-orange-500',
-      description: [
-        'Completed comprehensive Diploma in Computer Applications with excellent grades',
-        'Mastered computer fundamentals, office automation, and programming basics',
-        'Gained hands-on experience with database management systems',
-        'Developed practical skills in internet applications and web technologies'
-      ],
-      skills: [
-        'Computer Fundamentals', 'MS Office Suite', 'Programming Basics', 
-        'Database Management', 'Internet Applications', 'Typing Skills',
-        'Operating Systems', 'Computer Networking'
-      ],
-      techIcons: [FaMicrosoft, FaFileAlt, FaDatabase, FaDesktop, FaServer]
-    },
-    {
-      id: 2,
-      title: 'Cyber Security & Web Development Course',
-      organization: 'Hartron Advanced Skill Centre',
-      location: 'India',
-      type: 'Education',
-      period: 'Feb 2025 - Present',
-      duration: '1.5 Years',
-      icon: FaGraduationCap,
-      color: 'from-blue-500 to-cyan-500',
-      description: [
-        'Advanced training in Cyber Security fundamentals and ethical hacking techniques',
-        'Comprehensive MERN Stack development with real-world project experience',
-        'Hands-on penetration testing, vulnerability assessment, and security auditing',
-        'Built secure web applications implementing industry best practices'
-      ],
-      skills: [
-        'Cyber Security', 'Ethical Hacking', 'MERN Stack', 'Penetration Testing',
-        'Network Security', 'Security Auditing', 'Vulnerability Assessment',
-        'Secure Coding Practices'
-      ],
-      techIcons: [FaShieldAlt, FaCode, FaReact, FaNodeJs, SiMongodb, SiExpress, FaLock]
-    },
-    {
-      id: 3,
-      title: 'Freelance Full Stack Developer',
-      organization: 'Self-Employed / Freelance',
-      location: 'Remote (Global)',
-      type: 'Freelance',
-      period: 'Mar 2025 - Present',
-      duration: 'Ongoing',
-      icon: FaLaptopCode,
-      color: 'from-purple-500 to-pink-500',
-      description: [
-        'Developing full-stack web applications for diverse clients using MERN Stack',
-        'Implementing robust security measures and conducting penetration testing',
-        'Building responsive, scalable, and high-performance applications',
-        'Providing technical consultation, project management, and client support'
-      ],
-      skills: [
-        'Full Stack Development', 'MERN Stack', 'API Development', 'Database Design',
-        'Security Implementation', 'Project Management', 'Client Communication',
-        'Performance Optimization'
-      ],
-      techIcons: [FaReact, FaNodeJs, SiMongodb, SiExpress, FaShieldAlt, FaCloud, FaGitAlt]
-    }
-  ];
-
-  const achievements = [
-    {
-      icon: FaCertificate,
-      label: 'DCA Certified',
-      value: 'Hartron Certified'
-    },
-    {
-      icon: FaShieldAlt,
-      label: 'Cyber Security Certified',
-      value: 'In Progress'
-    },
-    {
-      icon: FaTrophy,
-      label: 'Projects Delivered',
-      value: '10+'
-    },
-    {
-      icon: FaStar,
-      label: 'Happy Clients',
-      value: '5+'
-    }
-  ];
-
+  // Animation variants
   const containerVariants = {
     hidden: { opacity: 0 },
     visible: {
       opacity: 1,
       transition: {
-        staggerChildren: 0.15
+        staggerChildren: 0.1,
+        delayChildren: 0.2
       }
     }
   };
 
   const itemVariants = {
-    hidden: { y: 30, opacity: 0 },
+    hidden: { y: 20, opacity: 0 },
     visible: {
       y: 0,
       opacity: 1,
-      transition: {
-        duration: 0.5
-      }
+      transition: { duration: 0.4, ease: "easeOut" }
     }
   };
 
+  // Education Data
+  const educationData = [
+    {
+      id: 1,
+      title: "10th Standard",
+      institution: "S.D Public School, Narwana",
+      period: "2020 - 2021",
+      location: "Narwana, Haryana",
+      icon: FaGraduationCap,
+      percentage: "87.6%",
+      description: "Completed 10th standard with excellent academic performance in Science & Mathematics.",
+      achievements: ["Science & Mathematics", "Computer Fundamentals"]
+    },
+    {
+      id: 2,
+      title: "12th Standard",
+      institution: "S.D Public School, Narwana",
+      period: "2022 - 2023",
+      location: "Narwana, Haryana",
+      icon: FaGraduationCap,
+      percentage: "62.5%",
+      description: "Completed 12th standard with a focus on science stream and computer applications.",
+      achievements: ["Science Stream", "Computer Applications"]
+    },
+    {
+      id: 3,
+      title: "Diploma in Computer Applications (DCA)",
+      institution: "Hartron Advanced Skill Centre, Kaithal",
+      period: "2024 - 2025",
+      location: "Kaithal, Haryana",
+      icon: FaGraduationCap,
+      description: "Completed Diploma in Computer Applications with focus on fundamental computer skills, office automation, and basic programming.",
+      achievements: ["Computer Fundamentals", "Office Automation", "Basic Programming", "Internet & Web Basics"]
+    },
+    {
+      id: 4,
+      title: "Cyber Security & Web Development",
+      institution: "Hartron Advanced Skill Centre",
+      period: "3 Sept 2025 - Present",
+      location: "Kaithal, Haryana",
+      icon: FiShield,
+      percentage: "1.5 Years",
+      description: "Advanced training in Cyber Security and Full Stack Web Development with MERN Stack, specializing in secure application development.",
+      achievements: ["MERN Stack", "Web Security", "Prompt Engineering", "Ethical Hacking"]
+    }
+  ];
+
+  // Work Experience Data
+  const workExperience = [
+    {
+      id: 1,
+      title: "Freelance Web Developer",
+      company: "Self-Employed",
+      period: "20 March 2026 - Present",
+      location: "Remote",
+      icon: FiBriefcase,
+      description: "Building custom web applications for clients using MERN Stack with integrated security features.",
+      achievements: ["MERN Stack Development", "Security Implementation", "Client Management"]
+    }
+  ];
+
   return (
-    <section id="experience" className={`py-20 ${isDark ? 'bg-navy' : 'bg-gray-50'}`}>
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        {/* Section Header */}
+    <section id="experience" className="py-20 px-4 sm:px-6 lg:px-8 bg-white dark:bg-[#0a0a0a] transition-colors duration-300">
+      <div className="container mx-auto max-w-6xl">
         <motion.div
-          initial={{ opacity: 0, y: -20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6 }}
+          variants={containerVariants}
+          initial="hidden"
+          whileInView="visible"
           viewport={{ once: true }}
-          className="text-center mb-16"
         >
-          <h2 className="text-4xl md:text-5xl font-bold mb-4">
-            <span className="bg-gradient-to-r from-electric to-cyan bg-clip-text text-transparent">
-              Experience & Education
-            </span>
-          </h2>
-          <p className={`text-lg max-w-2xl mx-auto ${isDark ? 'text-slate' : 'text-gray-600'}`}>
-            My journey in Computer Applications, Cyber Security, Web Development, and Freelancing
-          </p>
-          <div className="w-24 h-1 bg-gradient-to-r from-electric to-cyan mx-auto mt-4 rounded-full" />
-          
-          {/* Timeline Stats */}
-          <div className="flex flex-wrap justify-center gap-6 mt-6">
-            <div className={`flex items-center gap-2 px-4 py-2 rounded-full ${isDark ? 'bg-navy/60' : 'bg-white'} border border-electric/20`}>
-              <FaClock className="text-electric" />
-              <span className={`text-sm ${isDark ? 'text-slate' : 'text-gray-600'}`}>
-                <span className="font-bold text-electric">3</span> Experiences
+          {/* Section Header */}
+          <motion.div variants={itemVariants} className="text-center mb-12">
+            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-gray-100 dark:bg-[#1a1a1a] border border-gray-200 dark:border-[#1a1a1a] mb-4">
+              <span className="text-sm font-medium text-gray-700 dark:text-gray-300 uppercase tracking-wider">
+                My Journey
               </span>
             </div>
-            <div className={`flex items-center gap-2 px-4 py-2 rounded-full ${isDark ? 'bg-navy/60' : 'bg-white'} border border-cyan/20`}>
-              <FaCheckCircle className="text-cyan" />
-              <span className={`text-sm ${isDark ? 'text-slate' : 'text-gray-600'}`}>
-                <span className="font-bold text-cyan">2</span> Certifications
+            <h2 className="text-4xl sm:text-5xl font-extrabold text-[#0a0a0a] dark:text-white mb-4 tracking-tight">
+              Education & <span className="text-[#0a0a0a] dark:text-white">Experience</span>
+            </h2>
+            <p className="text-lg text-gray-600 dark:text-gray-400 max-w-2xl mx-auto">
+              My educational background and professional journey in Cyber Security and Web Development
+            </p>
+          </motion.div>
+
+          {/* Education Section */}
+          <div className="mb-12">
+            <div className="flex items-center gap-3 mb-6">
+              <div className="p-2 rounded-lg bg-gray-100 dark:bg-[#1a1a1a]">
+                <FiBookOpen className="w-6 h-6 text-gray-700 dark:text-gray-300" />
+              </div>
+              <h3 className="text-2xl font-bold text-[#0a0a0a] dark:text-white">
+                Education
+              </h3>
+              <span className="px-3 py-1 text-xs font-medium bg-gray-100 dark:bg-[#1a1a1a] text-gray-600 dark:text-gray-400 rounded-full">
+                Learning Journey
               </span>
             </div>
-          </div>
-        </motion.div>
 
-        {/* Timeline */}
-        <div className="relative">
-          {/* Timeline Line with Gradient */}
-          <div className={`absolute left-4 md:left-1/2 top-0 bottom-0 w-1 
-            ${isDark ? 'bg-gradient-to-b from-electric via-cyan to-purple-500' : 'bg-gradient-to-b from-blue-400 via-cyan-400 to-purple-400'}`} 
-          />
-          
-          {/* Decorative dots on timeline */}
-          <div className="absolute left-4 md:left-1/2 top-1/4 w-2 h-2 rounded-full bg-electric opacity-50" />
-          <div className="absolute left-4 md:left-1/2 top-1/2 w-2 h-2 rounded-full bg-cyan opacity-50" />
-          <div className="absolute left-4 md:left-1/2 top-3/4 w-2 h-2 rounded-full bg-purple-500 opacity-50" />
-
-          {/* Experience Items */}
-          <motion.div
-            variants={containerVariants}
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true }}
-            className="space-y-12"
-          >
-            {experiences.map((exp, index) => {
-              const Icon = exp.icon;
-              const isEven = index % 2 === 0;
-
-              return (
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              {educationData.map((edu, index) => (
                 <motion.div
-                  key={exp.id}
+                  key={edu.id}
                   variants={itemVariants}
-                  className={`relative flex flex-col md:flex-row items-start md:items-center gap-6 md:gap-0
-                    ${isEven ? 'md:flex-row' : 'md:flex-row-reverse'}`}
+                  whileHover={{ y: -5 }}
+                  className="group bg-gray-50 dark:bg-[#1a1a1a] rounded-xl overflow-hidden shadow-lg border border-gray-200 dark:border-[#1a1a1a] transition-all duration-300 hover:shadow-2xl"
                 >
-                  {/* Timeline Dot with Pulse Animation */}
-                  <div className={`absolute left-4 md:left-1/2 transform md:-translate-x-1/2 
-                    w-8 h-8 rounded-full bg-gradient-to-r ${exp.color} 
-                    border-4 ${isDark ? 'border-navy' : 'border-white'} 
-                    shadow-lg shadow-electric/30 z-10 flex items-center justify-center
-                    animate-pulse`}>
-                    <Icon className="w-4 h-4 text-white" />
-                  </div>
-
-                  {/* Connecting Line from dot to card */}
-                  <div className={`absolute left-10 md:hidden top-4 w-8 h-0.5 
-                    ${isDark ? 'bg-electric/30' : 'bg-gray-300'}`} />
-
-                  {/* Content */}
-                  <div className={`w-full md:w-[calc(50%-2rem)] ml-12 md:ml-0 
-                    ${isEven ? 'md:pr-8 md:text-right' : 'md:pl-8'}`}>
-                    <motion.div 
-                      whileHover={{ y: -8, scale: 1.02 }}
-                      transition={{ type: "spring", stiffness: 300 }}
-                      className={`p-6 rounded-2xl transition-all duration-300 relative overflow-hidden
-                        ${isDark 
-                          ? 'bg-navy/80 border border-electric/20 hover:border-electric/40' 
-                          : 'bg-white border border-gray-200 hover:border-electric/40 shadow-lg'
-                        } hover:shadow-2xl hover:shadow-electric/20`}>
-                      
-                      {/* Background Glow Effect */}
-                      <div className={`absolute -top-20 -right-20 w-40 h-40 rounded-full 
-                        bg-gradient-to-r ${exp.color} opacity-5 blur-2xl`} />
-                      
-                      {/* Type Badge */}
-                      <div className={`inline-block px-4 py-1.5 rounded-full text-xs font-medium mb-3 shadow-lg
-                        ${exp.type === 'Education' 
-                          ? 'bg-gradient-to-r from-blue-500 to-cyan-500 text-white' 
-                          : 'bg-gradient-to-r from-purple-500 to-pink-500 text-white'
-                        }`}>
-                        {exp.type}
+                  <div className="p-6">
+                    <div className="flex items-start justify-between mb-4">
+                      <div className="flex items-center gap-3">
+                        <div className="p-2 rounded-lg bg-white dark:bg-[#0a0a0a] group-hover:bg-gray-100 dark:group-hover:bg-[#2a2a2a] transition-colors">
+                          <edu.icon className="w-5 h-5 text-gray-700 dark:text-gray-300" />
+                        </div>
+                        <div>
+                          <h4 className="text-lg font-bold text-[#0a0a0a] dark:text-white">
+                            {edu.title}
+                          </h4>
+                          <p className="text-xs font-medium text-gray-600 dark:text-gray-400">
+                            {edu.institution}
+                          </p>
+                        </div>
                       </div>
+                      <span className="px-2 py-1 text-xs font-medium bg-gray-200 dark:bg-[#0a0a0a] text-gray-700 dark:text-gray-300 rounded-full whitespace-nowrap">
+                        {edu.period}
+                      </span>
+                    </div>
 
-                      {/* Title */}
-                      <h3 className={`text-xl font-bold mb-1 ${isDark ? 'text-white' : 'text-navy'}`}>
-                        {exp.title}
-                      </h3>
+                    <div className="flex items-center gap-2 mb-3">
+                      <FiMapPin className="w-3 h-3 text-gray-500 dark:text-gray-400" />
+                      <span className="text-xs text-gray-500 dark:text-gray-400">
+                        {edu.location}
+                      </span>
+                    </div>
 
-                      {/* Organization */}
-                      <div className={`flex items-center gap-2 mb-2 ${isEven ? 'md:justify-end' : ''}`}>
-                        <FaBriefcase className={`w-4 h-4 ${isDark ? 'text-cyan' : 'text-electric'}`} />
-                        <span className={`font-medium ${isDark ? 'text-slate' : 'text-gray-600'}`}>
-                          {exp.organization}
+                    {edu.percentage && (
+                      <div className="inline-flex items-center gap-2 px-2 py-1 bg-gray-200 dark:bg-[#0a0a0a] rounded-full mb-3">
+                        <FiAward className="w-3 h-3 text-gray-600 dark:text-gray-400" />
+                        <span className="text-xs font-semibold text-gray-700 dark:text-gray-300">
+                          {edu.percentage}
                         </span>
                       </div>
+                    )}
 
-                      {/* Location & Period */}
-                      <div className={`flex flex-wrap gap-3 mb-4 ${isEven ? 'md:justify-end' : ''}`}>
-                        <span className={`flex items-center gap-1 text-sm ${isDark ? 'text-slate' : 'text-gray-500'}`}>
-                          <FaMapMarkerAlt className="w-3 h-3" />
-                          {exp.location}
+                    <p className="text-gray-600 dark:text-gray-400 text-sm mb-4 leading-relaxed">
+                      {edu.description}
+                    </p>
+
+                    <div className="flex flex-wrap gap-2">
+                      {edu.achievements.map((achievement, idx) => (
+                        <span
+                          key={idx}
+                          className="px-2 py-1 bg-white dark:bg-[#0a0a0a] text-gray-700 dark:text-gray-300 rounded-md text-xs font-medium border border-gray-200 dark:border-[#1a1a1a]"
+                        >
+                          {achievement}
                         </span>
-                        <span className={`flex items-center gap-1 text-sm ${isDark ? 'text-slate' : 'text-gray-500'}`}>
-                          <FaCalendarAlt className="w-3 h-3" />
-                          {exp.period}
-                        </span>
-                        <span className={`flex items-center gap-1 text-sm px-2 py-0.5 rounded-full
-                          ${isDark ? 'bg-electric/20 text-cyan' : 'bg-electric/10 text-electric'}
-                          font-medium`}>
-                          <FaClock className="w-3 h-3" />
-                          {exp.duration}
-                        </span>
-                      </div>
-
-                      {/* Description */}
-                      <ul className={`space-y-2 mb-4 ${isEven ? 'md:text-right' : ''}`}>
-                        {exp.description.map((item, idx) => (
-                          <motion.li 
-                            key={idx} 
-                            initial={{ opacity: 0, x: isEven ? 20 : -20 }}
-                            whileInView={{ opacity: 1, x: 0 }}
-                            transition={{ delay: idx * 0.1 }}
-                            className={`text-sm flex items-start gap-2 ${isEven ? 'md:flex-row-reverse' : ''}
-                              ${isDark ? 'text-slate' : 'text-gray-600'}`}
-                          >
-                            <FaArrowRight className={`w-3 h-3 mt-1 flex-shrink-0 ${isDark ? 'text-cyan' : 'text-electric'}`} />
-                            <span>{item}</span>
-                          </motion.li>
-                        ))}
-                      </ul>
-
-                      {/* Tech Icons */}
-                      <div className={`flex flex-wrap gap-2 ${isEven ? 'md:justify-end' : ''}`}>
-                        {exp.techIcons.map((TechIcon, idx) => (
-                          <motion.span
-                            key={idx}
-                            whileHover={{ scale: 1.3, rotate: 10, y: -3 }}
-                            className={`p-2 rounded-lg transition-all duration-300
-                              ${isDark 
-                                ? 'bg-white/5 hover:bg-white/10 border border-white/10' 
-                                : 'bg-gray-100 hover:bg-gray-200 border border-gray-200'
-                              }`}
-                          >
-                            <TechIcon className={`w-4 h-4 ${isDark ? 'text-cyan' : 'text-electric'}`} />
-                          </motion.span>
-                        ))}
-                      </div>
-
-                      {/* Skills Tags */}
-                      <div className={`flex flex-wrap gap-2 mt-3 ${isEven ? 'md:justify-end' : ''}`}>
-                        {exp.skills.slice(0, 5).map((skill, idx) => (
-                          <motion.span
-                            key={idx}
-                            whileHover={{ scale: 1.08, y: -2 }}
-                            className={`px-3 py-1 rounded-full text-xs font-medium transition-all duration-300
-                              ${isDark 
-                                ? 'bg-electric/10 text-cyan border border-electric/20 hover:bg-electric/20' 
-                                : 'bg-electric/5 text-electric border border-electric/20 hover:bg-electric/10'
-                              }`}
-                          >
-                            {skill}
-                          </motion.span>
-                        ))}
-                        {exp.skills.length > 5 && (
-                          <span className={`px-3 py-1 rounded-full text-xs font-medium
-                            ${isDark 
-                              ? 'bg-white/5 text-slate' 
-                              : 'bg-gray-100 text-gray-600'
-                            }`}>
-                            +{exp.skills.length - 5}
-                          </span>
-                        )}
-                      </div>
-
-                      {/* Experience Number Badge */}
-                      <div className={`absolute -top-3 -right-3 w-8 h-8 rounded-full 
-                        bg-gradient-to-r ${exp.color} flex items-center justify-center
-                        text-white text-xs font-bold shadow-lg`}>
-                        {exp.id}
-                      </div>
-                    </motion.div>
+                      ))}
+                    </div>
                   </div>
                 </motion.div>
-              );
-            })}
+              ))}
+            </div>
+          </div>
+
+          {/* Work Experience Section */}
+          <div className="mb-12">
+            <div className="flex items-center gap-3 mb-6">
+              <div className="p-2 rounded-lg bg-gray-100 dark:bg-[#1a1a1a]">
+                <FiBriefcase className="w-6 h-6 text-gray-700 dark:text-gray-300" />
+              </div>
+              <h3 className="text-2xl font-bold text-[#0a0a0a] dark:text-white">
+                Work Experience
+              </h3>
+              <span className="px-3 py-1 text-xs font-medium bg-gray-100 dark:bg-[#1a1a1a] text-gray-600 dark:text-gray-400 rounded-full">
+                Professional Journey
+              </span>
+            </div>
+
+            <div className="grid grid-cols-1 gap-6">
+              {workExperience.map((work) => (
+                <motion.div
+                  key={work.id}
+                  variants={itemVariants}
+                  whileHover={{ y: -5 }}
+                  className="group bg-gray-50 dark:bg-[#1a1a1a] rounded-xl overflow-hidden shadow-lg border border-gray-200 dark:border-[#1a1a1a] transition-all duration-300 hover:shadow-2xl"
+                >
+                  <div className="p-6">
+                    <div className="flex flex-col sm:flex-row sm:items-start justify-between mb-4">
+                      <div className="flex items-center gap-3">
+                        <div className="p-2 rounded-lg bg-white dark:bg-[#0a0a0a] group-hover:bg-gray-100 dark:group-hover:bg-[#2a2a2a] transition-colors">
+                          <work.icon className="w-5 h-5 text-gray-700 dark:text-gray-300" />
+                        </div>
+                        <div>
+                          <h4 className="text-lg font-bold text-[#0a0a0a] dark:text-white">
+                            {work.title}
+                          </h4>
+                          <p className="text-sm font-medium text-blue-600 dark:text-blue-400">
+                            {work.company}
+                          </p>
+                        </div>
+                      </div>
+                      <span className="px-3 py-1 text-xs font-medium bg-blue-100 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400 rounded-full whitespace-nowrap mt-2 sm:mt-0">
+                        {work.period}
+                      </span>
+                    </div>
+
+                    <div className="flex items-center gap-4 mb-3">
+                      <div className="flex items-center gap-2">
+                        <FiMapPin className="w-3 h-3 text-gray-500 dark:text-gray-400" />
+                        <span className="text-xs text-gray-500 dark:text-gray-400">
+                          {work.location}
+                        </span>
+                      </div>
+                      <span className="w-1 h-1 rounded-full bg-gray-300 dark:bg-gray-600"></span>
+                      <div className="flex items-center gap-2">
+                        <FiClock className="w-3 h-3 text-gray-500 dark:text-gray-400" />
+                        <span className="text-xs font-medium text-green-600 dark:text-green-400">
+                          ● Active
+                        </span>
+                      </div>
+                    </div>
+
+                    <p className="text-gray-600 dark:text-gray-400 text-sm mb-4 leading-relaxed">
+                      {work.description}
+                    </p>
+
+                    <div className="flex flex-wrap gap-2">
+                      {work.achievements.map((achievement, idx) => (
+                        <span
+                          key={idx}
+                          className="px-2 py-1 bg-white dark:bg-[#0a0a0a] text-gray-700 dark:text-gray-300 rounded-md text-xs font-medium border border-gray-200 dark:border-[#1a1a1a]"
+                        >
+                          {achievement}
+                        </span>
+                      ))}
+                    </div>
+                  </div>
+                </motion.div>
+              ))}
+            </div>
+          </div>
+
+          {/* Summary Stats */}
+          <motion.div
+            variants={itemVariants}
+            className="grid grid-cols-2 sm:grid-cols-4 gap-4"
+          >
+            <div className="p-4 rounded-xl bg-gray-50 dark:bg-[#1a1a1a] border border-gray-200 dark:border-[#1a1a1a] text-center hover:border-gray-300 dark:hover:border-gray-700 transition-all duration-300">
+              <div className="text-2xl font-bold text-[#0a0a0a] dark:text-white">4</div>
+              <p className="text-xs text-gray-600 dark:text-gray-400 mt-1">Courses Completed</p>
+            </div>
+            <div className="p-4 rounded-xl bg-gray-50 dark:bg-[#1a1a1a] border border-gray-200 dark:border-[#1a1a1a] text-center hover:border-gray-300 dark:hover:border-gray-700 transition-all duration-300">
+              <div className="text-2xl font-bold text-[#0a0a0a] dark:text-white">1.5</div>
+              <p className="text-xs text-gray-600 dark:text-gray-400 mt-1">Years of Training</p>
+            </div>
+            <div className="p-4 rounded-xl bg-gray-50 dark:bg-[#1a1a1a] border border-gray-200 dark:border-[#1a1a1a] text-center hover:border-gray-300 dark:hover:border-gray-700 transition-all duration-300">
+              <div className="text-2xl font-bold text-[#0a0a0a] dark:text-white">4</div>
+              <p className="text-xs text-gray-600 dark:text-gray-400 mt-1">Certifications</p>
+            </div>
+            <div className="p-4 rounded-xl bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800 text-center hover:border-blue-300 dark:hover:border-blue-700 transition-all duration-300">
+              <div className="text-2xl font-bold text-blue-600 dark:text-blue-400">✓</div>
+              <p className="text-xs text-blue-600 dark:text-blue-400 mt-1">Currently Working</p>
+            </div>
           </motion.div>
-        </div>
-
-        {/* Achievements / Stats with enhanced design */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.4 }}
-          viewport={{ once: true }}
-          className="grid grid-cols-2 md:grid-cols-4 gap-4 mt-12"
-        >
-          {achievements.map((achievement, index) => {
-            const Icon = achievement.icon;
-            return (
-              <motion.div
-                key={index}
-                whileHover={{ y: -10, scale: 1.05 }}
-                transition={{ type: "spring", stiffness: 300 }}
-                className={`p-6 text-center rounded-xl relative overflow-hidden
-                  ${isDark 
-                    ? 'bg-navy/80 border border-electric/20 hover:border-electric/40' 
-                    : 'bg-white border border-gray-200 hover:border-electric/40 shadow-lg'
-                  } transition-all duration-300`}
-              >
-                {/* Background Glow */}
-                <div className={`absolute inset-0 bg-gradient-to-r from-electric/5 to-cyan/5 opacity-0 
-                  group-hover:opacity-100 transition-opacity duration-300`} />
-                
-                <Icon className={`w-10 h-10 mx-auto mb-3 ${isDark ? 'text-cyan' : 'text-electric'}`} />
-                <div className={`text-3xl font-bold ${isDark ? 'text-white' : 'text-navy'}`}>
-                  {achievement.value}
-                </div>
-                <div className={`text-sm ${isDark ? 'text-slate' : 'text-gray-600'}`}>
-                  {achievement.label}
-                </div>
-                
-                {/* Decorative Line */}
-                <div className={`absolute bottom-0 left-1/2 transform -translate-x-1/2 w-12 h-0.5 
-                  bg-gradient-to-r from-electric to-cyan rounded-full`} />
-              </motion.div>
-            );
-          })}
-        </motion.div>
-
-        {/* Timeline Legend */}
-        <motion.div
-          initial={{ opacity: 0 }}
-          whileInView={{ opacity: 1 }}
-          transition={{ duration: 0.6, delay: 0.5 }}
-          viewport={{ once: true }}
-          className="flex flex-wrap justify-center gap-6 mt-8 p-4 rounded-xl
-            ${isDark ? 'bg-navy/60 border border-electric/20' : 'bg-white border border-gray-200 shadow-md'}"
-        >
-          <div className="flex items-center gap-2">
-            <div className="w-4 h-4 rounded-full bg-gradient-to-r from-yellow-500 to-orange-500 shadow-lg" />
-            <span className={`text-sm font-medium ${isDark ? 'text-slate' : 'text-gray-600'}`}>DCA Course</span>
-          </div>
-          <div className="flex items-center gap-2">
-            <div className="w-4 h-4 rounded-full bg-gradient-to-r from-blue-500 to-cyan-500 shadow-lg" />
-            <span className={`text-sm font-medium ${isDark ? 'text-slate' : 'text-gray-600'}`}>Cyber Security</span>
-          </div>
-          <div className="flex items-center gap-2">
-            <div className="w-4 h-4 rounded-full bg-gradient-to-r from-purple-500 to-pink-500 shadow-lg" />
-            <span className={`text-sm font-medium ${isDark ? 'text-slate' : 'text-gray-600'}`}>Freelance</span>
-          </div>
-          <div className="flex items-center gap-2">
-            <FaClock className="w-4 h-4 text-electric" />
-            <span className={`text-sm font-medium ${isDark ? 'text-slate' : 'text-gray-600'}`}>Total: 3 Years+</span>
-          </div>
         </motion.div>
       </div>
     </section>
