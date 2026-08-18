@@ -116,18 +116,18 @@ export default function Navbar() {
             >
                 <div className="container mx-auto px-4 sm:px-6 lg:px-8">
                     <div className="flex items-center justify-between h-16 md:h-20">
-                        {/* Logo/Brand - Enhanced with Icon */}
+                        {/* Logo/Brand - Changed to "AN" with modern styling */}
                         <a
                             href="#home"
                             onClick={(e) => {
                                 e.preventDefault();
                                 handleNavClick('home');
                             }}
-                            className="flex items-center gap-2 group"
+                            className="flex items-center gap-3 group"
                         >
-                            <div className="relative">
-                                <FiShield className="w-7 h-7 text-cyan-500 dark:text-cyan-400 group-hover:rotate-12 transition-transform duration-300" />
-                                <span className="absolute -top-1 -right-1 w-2 h-2 bg-cyan-400 rounded-full animate-pulse"></span>
+                            <div className="relative flex items-center justify-center w-9 h-9 rounded-xl bg-gradient-to-br from-cyan-500 to-blue-500 text-white font-bold text-sm shadow-lg shadow-cyan-500/30 group-hover:scale-110 transition-transform duration-300">
+                                AN
+                                <span className="absolute -top-1 -right-1 w-2.5 h-2.5 bg-cyan-400 rounded-full animate-pulse"></span>
                             </div>
                             <span className="text-xl md:text-2xl font-bold text-[#0a0a0a] dark:text-white">
                                 Anj<span className="text-cyan-500 dark:text-cyan-400">ani</span>
@@ -254,7 +254,7 @@ export default function Navbar() {
                             {/* Header */}
                             <div className="flex justify-between items-center mb-6 pb-4 border-b border-gray-200/50 dark:border-[#1a1a1a]/50">
                                 <span className="text-lg font-bold text-[#0a0a0a] dark:text-white flex items-center gap-2">
-                                    <FiShield className="w-5 h-5 text-cyan-500 dark:text-cyan-400" />
+                                    <span className="flex items-center justify-center w-7 h-7 rounded-lg bg-gradient-to-br from-cyan-500 to-blue-500 text-white text-[10px] font-bold">AN</span>
                                     Menu
                                 </span>
                                 <button
